@@ -1,9 +1,7 @@
 import apiResponse from "../utils/apiResponse";
 import apiError from "../utils/apiError";
-import Like from "../models/like.models";
 import asyncHandler from "../utils/asyncHandler";
 import { NextFunction, Response, Request } from "express";
-import Comment from "../models/comment.models";
 import mongoose from "mongoose";
 import Version from "../models/version.models";
 
@@ -15,11 +13,49 @@ export const getVersion = asyncHandler(
             return next(new apiError(400, "Post id is requried !"));
         }
 
-        const versions = await Version.find();
+        const versions = await Version.aggregate([
+            {
+                $match: {
+                    post: new mongoose.Types.ObjectId(postId),
+                },
+            },
+            {
+                $lookup:{
+                    from:"users",
+                    localField:"owner",
+                    foreignField:"_id",
+                    as:"userName"
+                }
+            },{
+                $addFields:{
+                    userName:{
+                        $first:"$userName.userName"
+                    }
+                }
+            },
+            {
+                $project: {
+                    content: 0,
+                },
+            },
+        ]);
 
         res.status(200).json(
             new apiResponse(versions, "All version of the Post")
         );
+    }
+);
+
+export const getVersionById = asyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { versionId } = req.params;
+
+        const version = await Version.findById(versionId);
+
+        res.status(200).json(
+            new apiResponse(version,"version")
+        )
+
     }
 );
 
