@@ -67,7 +67,7 @@ export const getCommentByPost = asyncHandler(
             },
             {
                 $addFields: {
-                    user: {
+                    avatar: {
                         $first: "$user",
                     },
                     // user: "$user.avatar",

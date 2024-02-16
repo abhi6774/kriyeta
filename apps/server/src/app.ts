@@ -21,11 +21,15 @@ import postRouter from "./routes/post.routes";
 import likeRouter from "./routes/like.routes";
 import commentRouter from "./routes/comment.routes";
 import versionRouter from "./routes/version.routes";
+import followRouter from "./routes/follow.routes";
+import userRouter from "./routes/user.routes";
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/post", postRouter);
 app.use("/api/v1/like", likeRouter);
 app.use("/api/v1/comment", commentRouter)
 app.use("/api/v1/version",versionRouter);
+app.use("/api/v1/friend",followRouter);
+app.use("/api/v1/user",userRouter);
 
 export default app;
 
