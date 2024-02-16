@@ -1,9 +1,13 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
-    onwer: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+    },
+    title:{
+        type:String,
+        required:[true, "title is required !"]
     },
     content: {
         type: String,
