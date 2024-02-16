@@ -5,15 +5,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { RootPath } from "../axios.proxy";
 import { Post, PostResponse } from "@kriyeta/api-interaces";
+import MarkdownIt from "markdown-it";
+
+const md = MarkdownIt();
 
 export function PostPage() {
     const params = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState<Post | null>(null);
 
-    const id = params.id;
+    const id = params.id!;
 
-    if (id === "/") {
+    if ( !id || id === "/") {
         navigate("/");
         return;
     }
@@ -28,11 +31,23 @@ export function PostPage() {
         } catch (err) {}
     }
 
-    useEffect(() => {}, [id]);
+    useEffect(() => {
+
+        fetchPost(id);
+    }, [id]);
+    if (post === null) {
+        return <Container>
+            <div 
+            style={{ height:"100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                <h1>Dang Error: 404</h1>
+                <p>Post not found</p>
+            </div>
+        </Container>;
+    }
 
     return (
         <Container>
-            <PostViewer title="Title" previewContent={id ?? ""} />
+            <PostViewer title={post!.title} previewContent={md.render(post?.content)} />
         </Container>
     );
 }

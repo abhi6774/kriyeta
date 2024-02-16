@@ -11,6 +11,10 @@ app.use(cookieParser());
 app.use(express.static("apps/server/public/"));
 //cors setup
 
+app.use(cors({
+    origin: "*"
+}))
+
 // import Routers
 import authRouter from "./routes/auth.routes";
 import postRouter from "./routes/post.routes";

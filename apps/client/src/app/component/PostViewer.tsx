@@ -5,7 +5,7 @@ export function PostViewer({
     previewContent,
 }: {
     title: string;
-    previewContent: React.RefObject<HTMLDivElement> | string;
+    previewContent: string;
 }) {
     return (
         <div className="post-view">
