@@ -1,4 +1,73 @@
-.editor {
-    display: flex;
+.editor-container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
     position: relative;
+    padding: 20px;
+    grid-template-columns: 1fr 20px 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-content: space-between;
+
+    .seperator {
+        height: 100%;
+        background-color: blue;
+    }
+
+    .editor, .preview-container {
+        height: 100%;
+
+    }
+
+    .editor {
+        display: flex;
+        flex-direction: column;
+        input, textarea {
+            width: 100%;
+            padding: 28px 20px;
+
+            outline: none;
+            border: none;
+            background-color: aqua;
+        }
+        input {
+            font-size: large;
+            font-weight: bold;
+            font-size: x-large;
+        }
+        textarea {
+            height: 100%;
+            padding-top: 0;
+        }
+    }
+
+    .preview-container {
+        display: flex;
+        flex-direction: column;
+        background: lightgray;
+        border-top-left-radius: none;
+        border-bottom-left-radius: none;
+        padding: 24px 20px;
+
+        h1.title {
+            font-size: x-large;
+            min-height: 45px;
+        }
+
+        /**
+         * This is the class that will be used to style the content of the preview
+         * container.
+         */
+        .preview-content {
+            & > :first-child {
+                margin-top: 20px;
+            }
+            h1, h2, h3, h4, h5, h6 p, table, ul, ol {
+                margin-bottom: 12px;
+            }
+            li {
+                margin-bottom: 8px;
+            }
+        }
+    }
 }
