@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const commentSchema = new mongoose.Schema(
+const versionSchema = new mongoose.Schema(
     {
         post: {
             type: mongoose.Schema.Types.ObjectId,
@@ -10,7 +10,7 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: [true, "Content is required !"],
         },
-        commentBy: {
+        owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
@@ -18,6 +18,6 @@ const commentSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Comment = mongoose.model("Comment", commentSchema);
+const Version = mongoose.model("Version", versionSchema);
 
-export default Comment;
+export default Version;
