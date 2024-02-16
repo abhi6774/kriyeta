@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
-const likeSchema = new mongoose.Schema(
+const versionSchema = new mongoose.Schema(
     {
         post: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Post",
         },
-        likedBy: {
+        content: {
+            type: String,
+            required: [true, "Content is required !"],
+        },
+        owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
@@ -14,7 +18,6 @@ const likeSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Like = mongoose.model("Like", likeSchema);
+const Version = mongoose.model("Version", versionSchema);
 
-export default Like;
-
+export default Version;
