@@ -13,6 +13,7 @@ import LoginUpPage from "./app/pages/auth/LoginPage";
 import SignUpPage from "./app/pages/auth/SignUpPage";
 import Container from "./app/component/Container";
 import { Editor } from "./app/pages/Editor";
+import { PostPage } from "./app/pages/PostPage";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     {
         path: "editor",
         element: <Editor />,
+    },
+    {
+        path: "/post/:id",
+        element: <PostPage />,
     },
 ]);
 

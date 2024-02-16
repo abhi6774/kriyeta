@@ -12,6 +12,7 @@ function TitleComponent(props: {
     return (
         <div className="title">
             <input
+                required
                 type="text"
                 value={props.title}
                 style={{ border: "none" }}
