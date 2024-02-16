@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { LoginData, SignUpResponse } from "@kriyeta/api-interaces";
+import { LoginData, SignUpResponse, User } from "@kriyeta/api-interaces";
 import axios from "axios";
 import { RootPath } from "../axios.proxy";
 
@@ -9,29 +9,49 @@ type Response<T, E> = {
 };
 
 type AuthContextProps = {
-    signup: (details: FormData) => void;
-    login: (details: LoginData) => void;
+    user: User | null;
+    signup: ((details: FormData) => void) | null;
+    login: ((details: LoginData) => void) | null;
 };
 
-const AuthContext = createContext<AuthContextProps>({
-    signup: async (details: FormData) => {
-        try {
-            const response = await axios.post<{}, SignUpResponse>(
-                `${RootPath}/auth/signup`,
-                details
-            );
-            if (!response.success) {
-                return { error: response.message, data: null };
-            }
-            return { error: null, data: response.user };
-        } catch (err) {
-            console.log(err);
-            return { error: err, data: null };
+const SignUpFunction = async (details: FormData) => {
+    try {
+        const response = await axios.post<{}, SignUpResponse>(
+            `${RootPath}/auth/signup`,
+            details
+        );
+        if (!response.success) {
+            return { error: response.message, data: null };
         }
-    },
-    login: async (details: LoginData) => {},
+        return { error: null, data: response.user };
+    } catch (err) {
+        console.log(err);
+        return { error: err, data: null };
+    }
+};
+
+async function LoginFunction(details: LoginData) {}
+
+const AuthContext = createContext<AuthContextProps>({
+    user: null,
+    signup: SignUpFunction,
+    login: LoginFunction,
 });
 
-function useAuthContext() {
+export function useAuthContext() {
     return useContext(AuthContext);
 }
+
+// export function AuthProvider({ children }: { children: React.ReactNode }) {
+//     return (
+//         <AuthContext.Provider
+//             value={{
+//                 user: null,
+//                 signup: SignUpFunction,
+//                 login: LoginFunction,
+//             }}
+//         >
+//             {children}
+//         </AuthContext.Provider>
+//     );
+// }
