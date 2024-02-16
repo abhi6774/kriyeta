@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema({
     userName: {
         type: String,
@@ -34,6 +34,19 @@ const userSchema = new mongoose.Schema({
         },
     },
 }, { timestamps:true});
+
+
+userSchema.pre("save", async function(next){
+    if(this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password,10) 
+    }
+    next();
+})  
+
+userSchema.methods.chechPasswordIsTrue = async function (password:string) {
+    return bcrypt.compare(password, this.passwrod);
+}
+
 
 const User = mongoose.model("User", userSchema);
 
