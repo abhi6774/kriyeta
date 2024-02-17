@@ -7,6 +7,8 @@ export type InputFieldProps = {
     name: string;
     value: string;
     id?: string;
+    value: string | number;
+    // value:string | number
     autoComplete?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;

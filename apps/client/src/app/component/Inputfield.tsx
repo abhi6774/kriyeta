@@ -4,6 +4,7 @@ import "../styles/inputfield.scss";
 
 export function InputField(props: InputFieldProps) {
     const [focused, setFocused] = useState(false);
+
     const id = props.id ? props.id : "inp-field" + props.label;
     return (
         <div className={`inp-field ${focused ? "focused" : ""}`}>
@@ -11,6 +12,7 @@ export function InputField(props: InputFieldProps) {
             <input
                 type={props.type || "text"}
                 id={id}
+                // value={props.value}
                 name={props.name}
                 onChange={props.onChange}
                 onFocus={(e) => {

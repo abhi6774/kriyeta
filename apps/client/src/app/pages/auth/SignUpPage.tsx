@@ -1,46 +1,62 @@
-import { FormEventHandler, useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "../../component/Button";
 import Container from "../../component/Container";
 import { InputField } from "../../component/Inputfield";
 import { Logo } from "../../component/Logo";
 import { useAuthContext } from "../../context/auth.context";
 import "../../styles/formstyle.scss";
-import { AvatarInput } from "../../component/AvatarInput";
+
 import axios from "axios";
-import { RootPath } from "../../axios.proxy";
-import { SignUpResponse } from "@kriyeta/api-interaces";
 
 export default function SignUpPage() {
     const {} = useAuthContext();
-    async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const ref = useRef<HTMLInputElement>(null);
+
+    const [fullName, setFullName] = useState<string>("");
+    const [userName, setuserName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    // const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    // const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+    async function register(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
         const signUpData = {
-            email: formData.get("email") as string,
-            userName: formData.get("userName") as string,
-            fullName: formData.get("fullName") as string,
-            password: formData.get("password") as string,
-            avatar: formData.get("avatar") as string,
+            fullName,
+            userName,
+            email,
+            password,
         };
-
         try {
-            const response = await axios.post<{}, { data: SignUpResponse }>(
-                `${RootPath}/auth/register`,
-                signUpData
+            const response = await axios.post(
+                "http://localhost:3000/api/v1/auth/register",
+                signUpData,
+                // { withCredentials: true }
             );
-
-            // console.log(response);
-        } catch (err) {
-            // console.log(err);
+            console.log(response);
+        } catch (error: any) {
+            console.log(error);
         }
     }
+    // function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    //     const file = e.target.files?.item(0);
+
+    //     if (file) {
+    //         const url = URL.createObjectURL(file);
+    //         console.log(url);
+    //         setAvatarUrl(url);
+    //         setAvatarFile(file);
+    //     }
+    // }
 
     return (
         <Container sx={{ paddingTop: "80px" }}>
-            <form className="form-style" onSubmit={onSubmit}>
+            <form className="form-style" onSubmit={register}>
                 <Logo />
-                <AvatarInput />
+
                 <InputField
+                    value={email}
+                    onChange={(e) => setEmail(e.currentTarget.value)}
                     name="email"
                     placeholder="Email"
                     type="email"
@@ -48,6 +64,8 @@ export default function SignUpPage() {
                     autoComplete="email"
                 />
                 <InputField
+                    value={userName}
+                    onChange={(e) => setuserName(e.currentTarget.value)}
                     name="userName"
                     placeholder="Username"
                     type="text"
@@ -55,6 +73,8 @@ export default function SignUpPage() {
                     autoComplete="username"
                 />
                 <InputField
+                    value={fullName}
+                    onChange={(e) => setFullName(e.currentTarget.value)}
                     name="fullName"
                     placeholder="Full Name"
                     id="fullName"
@@ -62,6 +82,8 @@ export default function SignUpPage() {
                     label="Full Name"
                 />
                 <InputField
+                    value={password}
+                    onChange={(e) => setPassword(e.currentTarget.value)}
                     name="password"
                     placeholder="Password"
                     type="password"
