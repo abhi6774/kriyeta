@@ -14,6 +14,7 @@ import SignUpPage from "./app/pages/auth/SignUpPage";
 import Container from "./app/component/Container";
 import { Editor } from "./app/pages/Editor";
 import { PostPage } from "./app/pages/PostPage";
+import Profile from "./app/pages/Profile";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
 
     { path: "/login", element: <LoginUpPage /> },
     { path: "signup", element: <SignUpPage /> },
+    { path: "/profile", element: <Profile/>}
 ]);
 
 root.render(
