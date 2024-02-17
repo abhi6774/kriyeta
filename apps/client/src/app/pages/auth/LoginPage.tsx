@@ -39,9 +39,13 @@ const LoginPage = () => {
         try {
             const response = await axios.post<{}, { data: LoginResponse }>(
                 `${RootPath}/auth/login`,
-                login
+                login,
+                {
+                    withCredentials: true,
+                }
             );
             SaveUserDetailsLocally(response.data);
+            console.log(response);
         } catch (err) {}
     }
 
