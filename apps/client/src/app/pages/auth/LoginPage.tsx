@@ -4,15 +4,45 @@ import Container from "../../component/Container";
 import { InputField } from "../../component/Inputfield";
 import { Logo } from "../../component/Logo";
 import "../../styles/login.scss";
+import { LoginData, LoginResponse } from "@kriyeta/api-interaces";
+import axios from "axios";
+import { RootPath } from "../../axios.proxy";
+
+function SaveUserDetailsLocally(response: LoginResponse) {
+    const indexDb = window.indexedDB.open("kriyeta", 1);
+    indexDb.onsuccess = (e) => {
+        const db = indexDb.result;
+        const tx = db.transaction("user", "readwrite");
+        const store = tx.objectStore("user");
+        store.put(response.data, "user");
+    };
+
+    indexDb.onerror = (e) => {
+        console.log(e);
+    };
+
+    indexDb.onupgradeneeded = (e) => {
+        const db = indexDb.result;
+        db.createObjectStore("user", { keyPath: "id" });
+    };
+}
 
 const LoginPage = () => {
     async function loginFormHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const login = {
-            email: formData.get("email"),
-            password: formData.get("password"),
+        const login: LoginData = {
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
         };
+
+        try {
+            const response = await axios.post<{}, { data: LoginResponse }>(
+                `${RootPath}/auth/login`,
+                login
+            );
+            SaveUserDetailsLocally(response.data);
+        } catch (err) {}
     }
 
     return (
@@ -21,8 +51,8 @@ const LoginPage = () => {
                 <Logo />
                 <InputField
                     name="email"
-                    placeholder="Email"
-                    type="email"
+                    placeholder="Email or UserName"
+                    type="text"
                     label="Email"
                     autoComplete="email"
                 />

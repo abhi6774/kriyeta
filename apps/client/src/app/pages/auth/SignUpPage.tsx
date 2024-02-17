@@ -8,7 +8,7 @@ import "../../styles/formstyle.scss";
 import { AvatarInput } from "../../component/AvatarInput";
 
 export default function SignUpPage() {
-    // const { signup } = useAuthContext();
+    const {} = useAuthContext();
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formdata = new FormData(e.currentTarget);

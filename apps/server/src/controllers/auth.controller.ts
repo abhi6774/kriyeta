@@ -5,7 +5,7 @@ import User from "../models/user.models";
 import apiResponse from "../utils/apiResponse";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 type SignupData = {
     fullName: string;
@@ -89,9 +89,8 @@ export const loginUser = asyncHandler(
             );
         }
         // decoding bcrypt
-        let isMatch = bcrypt.compareSync(password, user.password)
+        const isMatch = bcrypt.compareSync(password, user.password);
 
-        
         if (!isMatch) {
             return next(new ApiError(401, "Incorrect Password !"));
         }
@@ -116,15 +115,16 @@ export const loginUser = asyncHandler(
     }
 );
 
-export const logoutUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-   
-    const optionsForAccess = {
-        httpOnly: true,
-        secure: true,
-    };
+export const logoutUser = asyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const optionsForAccess = {
+            httpOnly: true,
+            secure: true,
+        };
 
-    return res
-        .status(200)
-        .clearCookie("accessToken", optionsForAccess)
-        .json(new apiResponse( null, "User logged Out"));
-});
+        return res
+            .status(200)
+            .clearCookie("accessToken", optionsForAccess)
+            .json(new apiResponse(null, "User logged Out"));
+    }
+);

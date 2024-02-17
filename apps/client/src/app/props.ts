@@ -13,6 +13,7 @@ export type InputFieldProps = {
 
 export type ButtonProps = {
     name: string;
+    loading?: boolean;
     type?: "submit" | "reset" | "button" | undefined;
     onClickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     classNames?: string[];
