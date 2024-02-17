@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../styles/smallpostviewer.scss";
 import React from "react";
-type SmallPostViewerType {
+type SmallPostViewerType = {
     userName:string,
     title:string,
     content:string

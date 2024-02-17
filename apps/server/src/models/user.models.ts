@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema<UserSchema>(
             type: String,
             required: [true, "Password is required !"],
             minLength: [4, "password contain minimun 4 letters"],
-            maxLength: [8, "password contain maximun 8 letters"],
+            // maxLength: [8, "password contain maximun 8 letters"],
         },
         // avatar: {
         //     url: {

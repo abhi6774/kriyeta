@@ -1,4 +1,7 @@
+import { useState } from "react";
 import "../styles/post-view.scss";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 
 type PostPageProps = {
     title: string;
@@ -13,11 +16,13 @@ export function PostViewer({
     createdAt,
     author,
 }: PostPageProps) {
+    const [like, setLike] = useState<boolean>();
     const formatter = new Intl.DateTimeFormat("en-IN", {
         year: "numeric",
         month: "long",
         day: "numeric",
     });
+
     return (
         <div className="post-view">
             <h1 className="title">{title}</h1>
@@ -34,6 +39,9 @@ export function PostViewer({
             ) : (
                 <div ref={previewContent} className="post-content"></div>
             )}
+            <hr />
+            <button> {like ? <CiHeart /> : <FaHeart />} </button>
+            <hr />
         </div>
     );
 }
