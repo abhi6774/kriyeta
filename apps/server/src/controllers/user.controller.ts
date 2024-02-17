@@ -50,7 +50,7 @@ export const getUserProfile = asyncHandler(
         ]);
 
         res.status(200).json(
-            new apiResponse(user,'User Profile')
+            new apiResponse(user[0],'User Profile')
         )
     }
 );

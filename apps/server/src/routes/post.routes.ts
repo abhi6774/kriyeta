@@ -5,7 +5,7 @@ import upload from "../middlewares/multer.middlewares";
 
 const router = Router();
 
-router.route("/").get(getAllPost).post(auth,upload.single("image") ,addPost);
+router.route("/").get(getAllPost).post(auth,addPost);
 router.route("/:postId").get(getPostById).delete(auth ,deletePost)
 
 
