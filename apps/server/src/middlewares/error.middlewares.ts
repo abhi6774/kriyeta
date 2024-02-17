@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import ApiError from "../utils/apiError";
 
-const errorMiddleware = (err:ApiError,req:Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const errorMiddleware = (err:ApiError,req:Request, res: Response, _next: NextFunction) => {
     err.statusCode = err.statusCode || 500;
     err.message  = err.message || "Something went wrong 🥲"
 

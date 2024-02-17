@@ -1,19 +1,31 @@
 import "../styles/post-view.scss";
 
+type PostPageProps = {
+    title: string;
+    previewContent: string;
+    createdAt: number | Date;
+    author: string;
+};
+
 export function PostViewer({
     title,
     previewContent,
-}: {
-    title: string;
-    previewContent: string;
-}) {
+    createdAt,
+    author,
+}: PostPageProps) {
+    const formatter = new Intl.DateTimeFormat("en-IN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
     return (
         <div className="post-view">
             <h1>{title}</h1>
             <ul className="post-info">
-                <li>Published By: {}</li>
+                <li>Author: {author}</li>
+                <li>{formatter.format(createdAt)}</li>
             </ul>
-            <hr></hr>
+            <hr />
             {typeof previewContent === "string" ? (
                 <div
                     className="preview-content"

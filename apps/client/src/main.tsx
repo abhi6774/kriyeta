@@ -1,10 +1,9 @@
 import { StrictMode } from "react";
 import * as ReactDOM from "react-dom/client";
 import {
-    BrowserRouter,
-    Route,
+
     RouterProvider,
-    Routes,
+
     createBrowserRouter,
 } from "react-router-dom";
 
