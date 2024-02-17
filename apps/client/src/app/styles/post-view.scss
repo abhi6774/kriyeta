@@ -1,16 +1,27 @@
 .post-view {
     width: 100%;
-    max-width: 800px;
-    padding: 20px;
+    max-width: 1000px;
+    padding: 20px 0;
 
-    h1.title + hr {
+    hr {
         margin-bottom: 20px;
+        color: var(--primary);
+        border: 1px solid var(--primary);
     }
 
+    h1.title {
+        margin-bottom: 16px;
+    }
+
+    h1.title,
+    ul {
+        margin-left: 12px;
+    }
     .post-info {
         display: flex;
         width: 100%;
         margin-bottom: 12px;
+
         li {
             margin-left: 12px;
             margin-right: 12px;
@@ -21,6 +32,7 @@
     }
 
     .post-content {
+        margin-left: 20px;
         h1,
         h2,
         h3,

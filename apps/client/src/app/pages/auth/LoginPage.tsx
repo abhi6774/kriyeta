@@ -1,4 +1,4 @@
-import { FormEvent, FormEventHandler } from "react";
+import { FormEvent, FormEventHandler, useEffect, useState } from "react";
 import { Button } from "../../component/Button";
 import Container from "../../component/Container";
 import { InputField } from "../../component/Inputfield";
@@ -7,6 +7,8 @@ import "../../styles/login.scss";
 import { LoginData, LoginResponse } from "@kriyeta/api-interaces";
 import axios from "axios";
 import { RootPath } from "../../axios.proxy";
+import { useAuthContext } from "../../context/auth.context";
+import { useNavigate } from "react-router-dom";
 
 function SaveUserDetailsLocally(response: LoginResponse) {
     const indexDb = window.indexedDB.open("kriyeta", 1);
@@ -28,12 +30,24 @@ function SaveUserDetailsLocally(response: LoginResponse) {
 }
 
 const LoginPage = () => {
+    const { user } = useAuthContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, []);
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     async function loginFormHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
+
         const login: LoginData = {
-            email: formData.get("email") as string,
-            password: formData.get("password") as string,
+            email,
+            password,
         };
 
         try {
@@ -54,6 +68,8 @@ const LoginPage = () => {
             <form className="form-style" onSubmit={loginFormHandler}>
                 <Logo />
                 <InputField
+                    value={email}
+                    onChange={(e) => setEmail(e.currentTarget.value)}
                     name="email"
                     placeholder="Email or UserName"
                     type="text"
@@ -61,6 +77,8 @@ const LoginPage = () => {
                     autoComplete="email"
                 />
                 <InputField
+                    value="password"
+                    onChange={(e) => setPassword(e.currentTarget.value)}
                     name="password"
                     placeholder="Password"
                     type="password"

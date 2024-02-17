@@ -20,7 +20,7 @@ export function PostViewer({
     });
     return (
         <div className="post-view">
-            <h1>{title}</h1>
+            <h1 className="title">{title}</h1>
             <ul className="post-info">
                 <li>Author: {author}</li>
                 <li>{formatter.format(createdAt)}</li>
@@ -28,11 +28,11 @@ export function PostViewer({
             <hr />
             {typeof previewContent === "string" ? (
                 <div
-                    className="preview-content"
+                    className="post-content"
                     dangerouslySetInnerHTML={{ __html: previewContent }}
                 ></div>
             ) : (
-                <div ref={previewContent} className="preview-content"></div>
+                <div ref={previewContent} className="post-content"></div>
             )}
         </div>
     );

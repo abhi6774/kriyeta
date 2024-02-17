@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../../component/Button";
 import Container from "../../component/Container";
 import { InputField } from "../../component/Inputfield";
@@ -7,17 +7,27 @@ import { useAuthContext } from "../../context/auth.context";
 import "../../styles/formstyle.scss";
 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { RootPath } from "../../axios.proxy";
+import { SignUpResponse } from "@kriyeta/api-interaces";
 
 export default function SignUpPage() {
-    const {} = useAuthContext();
+    const { setUser, user } = useAuthContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, []);
     const ref = useRef<HTMLInputElement>(null);
 
     const [fullName, setFullName] = useState<string>("");
     const [userName, setuserName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    // const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-    // const [avatarFile, setAvatarFile] = useState<File | null>(null);
+
+    const [loading, setLoading] = useState(false);
 
     async function register(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -28,26 +38,42 @@ export default function SignUpPage() {
             password,
         };
         try {
-            const response = await axios.post(
-                "http://localhost:3000/api/v1/auth/register",
-                signUpData,
-                // { withCredentials: true }
+            setLoading(true);
+            const response = await axios.post<{}, { data: SignUpResponse }>(
+                `${RootPath}/auth/register`,
+                signUpData
             );
+            setLoading(false);
+            if (response.data.success && response.data.data) {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.data)
+                );
+                setUser(response.data.data);
+            }
             console.log(response);
         } catch (error: any) {
             console.log(error);
+            setLoading(false);
         }
     }
-    // function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    //     const file = e.target.files?.item(0);
-
-    //     if (file) {
-    //         const url = URL.createObjectURL(file);
-    //         console.log(url);
-    //         setAvatarUrl(url);
-    //         setAvatarFile(file);
-    //     }
-    // }
+    if (loading) {
+        return (
+            <Container>
+                <div
+                    style={{
+                        height: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <h1>Loading...</h1>
+                </div>
+            </Container>
+        );
+    }
 
     return (
         <Container sx={{ paddingTop: "80px" }}>

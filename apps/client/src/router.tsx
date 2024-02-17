@@ -36,10 +36,12 @@ const router = createBrowserRouter([
 ]);
 
 export function RouterControllerComponent() {
-    const [user, setUser] = useState<User | null>(null);
+    const localUser = localStorage.getItem("user");
+    const parsedUser = !localUser ? null : (JSON.parse(localUser) as User);
+    const [user, setUser] = useState<User | null>(parsedUser);
 
     return (
-        <AuthContext.Provider value={{ user, setUser: setUser }}>
+        <AuthContext.Provider value={{ user, setUser }}>
             <RouterProvider router={router} />
         </AuthContext.Provider>
     );

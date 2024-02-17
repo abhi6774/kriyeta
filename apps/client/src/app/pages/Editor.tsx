@@ -6,6 +6,7 @@ import { RootPath } from "../axios.proxy";
 import { PostResponse } from "@kriyeta/api-interaces";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../component/Button";
+import axios from "axios";
 
 const md = markdownit();
 
@@ -86,20 +87,13 @@ export function Editor() {
 
     async function createPost() {
         try {
-            const res = (await (
-                await fetch(`${RootPath}/post`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        content: unparsedText,
-                    }),
-                })
-            ).json()) as PostResponse;
-            if (res.success) {
-                navigate(`/post/${res.data._id}`);
+            const res = await axios.post<PostResponse>(`${RootPath}/post`, {
+                title,
+                content: unparsedText,
+            });
+
+            if (res.data.data) {
+                navigate(`/post/${res.data.data._id}`);
             }
         } catch (err) {
             console.error(err);
@@ -132,7 +126,6 @@ export function Editor() {
                         onChange={(e) => setUnparsedText(e.target.value)}
                     ></textarea>
                 </div>
-                {/* <Seperator /> */}
                 <div className="preview-container">
                     <h1>{title}</h1>
                     <hr></hr>

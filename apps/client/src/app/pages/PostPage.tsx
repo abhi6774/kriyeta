@@ -73,7 +73,7 @@ export function PostPage() {
     }
 
     return (
-        <Container>
+        <Container sx={{ width: "100%" }}>
             <PostViewer
                 author={post.userName}
                 createdAt={new Date(post.createdAt)}

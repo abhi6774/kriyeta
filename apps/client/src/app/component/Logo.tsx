@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Logo(
     { needLink, size }: { needLink?: boolean; size?: string | number } = {
         needLink: false,
@@ -11,9 +13,9 @@ export function Logo(
             }}
         >
             {needLink ? (
-                <a href={"/"} style={{ textDecoration: "none" }}>
+                <Link to={"/"} style={{ textDecoration: "none" }}>
                     sharely !
-                </a>
+                </Link>
             ) : (
                 "sharely !"
             )}
