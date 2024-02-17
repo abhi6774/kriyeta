@@ -15,7 +15,7 @@ export const getAllPost = asyncHandler(
                     from: "users",
                     localField: "owner",
                     foreignField: "_id",
-                    as: "avatar",
+                    as: "userName",
                 },
             },
             {
@@ -50,15 +50,15 @@ export const getAllPost = asyncHandler(
             },
             {
                 $addFields: {
-                    avatar: {
+                    userName: {
                         $first: "$avatar",
                     },
                 },
             },
             {
                 $addFields: {
-                    avatar: "$avatar.avatar",
-                    userName: "$avatar.userName",
+                    // avatar: "$avatar.avatar",
+                    userName: "$userName.userName",
                 },
             },
         ]);
@@ -77,18 +77,18 @@ export const addPost = asyncHandler(
             return next(new ApiError(400, "title or content is required !"));
         }
 
-        const imageLocalPath = req?.file?.path;
+        // const imageLocalPath = req?.file?.path;
 
-        const img = await uploadOnCloudinary(imageLocalPath);
+        // const img = await uploadOnCloudinary(imageLocalPath);
 
         const post = await Post.create({
             title,
             content,
             owner: userId,
-            image: {
-                url: img ? img.url : undefined,
-                public_id: img ? img.public_id : undefined,
-            },
+            // image: {
+            //     url: img ? img.url : undefined,
+            //     public_id: img ? img.public_id : undefined,
+            // },
         });
 
         res.status(200).json(new apiResponse(post, "All Posts"));
@@ -105,7 +105,7 @@ export const deletePost = asyncHandler(
             return next(new ApiError(400, "Post is not found !"));
         }
 
-        await deleteOnCloundinary(post?.image?.public_id);
+        // await deleteOnCloundinary(post?.image?.public_id);
 
         res.status(200).json(
             new apiResponse(post, "Posts deleted successfully .")
@@ -132,7 +132,7 @@ export const getPostById = asyncHandler(
                     from: "users",
                     localField: "owner",
                     foreignField: "_id",
-                    as: "avatar",
+                    as: "userName",
                 },
             },
             {
@@ -167,15 +167,15 @@ export const getPostById = asyncHandler(
             },
             {
                 $addFields: {
-                    avatar: {
+                    userName: {
                         $first: "$avatar",
                     },
                 },
             },
             {
                 $addFields: {
-                    avatar: "$avatar.avatar",
-                    userName: "$avatar.userName",
+                    // avatar: "$avatar.avatar",
+                    userName: "$userName.userName",
                 },
             },
         ]);

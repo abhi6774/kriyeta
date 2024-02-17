@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import "../styles/smallpostviewer.scss";
-
-const SmallPostViewer = () => {
+import React from "react";
+type SmallPostViewerType {
+    userName:string,
+    title:string,
+    content:string
+}
+const SmallPostViewer:React.FC<SmallPostViewerType> = ({userName,title, content}) => {
     return (
         <div className="smallPost">
             <div>

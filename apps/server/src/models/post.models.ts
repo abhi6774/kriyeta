@@ -10,14 +10,14 @@ const postSchema = new mongoose.Schema(
             type: String,
             required: [true, "title is required !"],
         },
-        image: {
-            url: {
-                type: String,
-            },
-            public_id: {
-                type: String,
-            },
-        },
+        // image: {
+        //     url: {
+        //         type: String,
+        //     },
+        //     public_id: {
+        //         type: String,
+        //     },
+        // },
         content: {
             type: String,
             required: [true, "content is required !"],
