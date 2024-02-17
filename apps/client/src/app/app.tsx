@@ -6,7 +6,7 @@ import NavBar from "./component/NavBar";
 
 export function App() {
     return (
-        <Container>
+        <Container sx={{ minHeight: "100vh", justifyContent: "flex-start"}}>
             <NavBar />
             <Outlet />
         </Container>
