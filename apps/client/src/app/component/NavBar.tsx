@@ -9,7 +9,7 @@ const NavBar = () => {
     const auth = false;
     return (
         <div className="navbar">
-            <Logo />
+            <Logo needLink={true} />
             <div>
                 <Link to={"/editor"}>Write</Link>
                 {user ? "" : <Link to={"/signup"}>SignUp</Link>}

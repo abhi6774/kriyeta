@@ -13,10 +13,12 @@ const md = markdownit();
 function TitleComponent(props: {
     title: string;
     onChange: (value: string) => void;
+    onKeyUp: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }) {
     return (
         <div className="title">
             <input
+                onKeyDown={props.onKeyUp}
                 required
                 type="text"
                 value={props.title}
@@ -71,7 +73,6 @@ export function Editor() {
         md.render(defaultDemoText)
     );
     const [title, setTitle] = useState<string>("");
-    const [first, setFirst] = useState(false);
 
     function textAreaInputHandler(e: React.FormEvent<HTMLTextAreaElement>) {
         if (e.target === null) return;
@@ -87,10 +88,16 @@ export function Editor() {
 
     async function createPost() {
         try {
-            const res = await axios.post<PostResponse>(`${RootPath}/post`, {
-                title,
-                content: unparsedText,
-            });
+            console.log(title, unparsedText);
+
+            const res = await axios.post<PostResponse>(
+                `${RootPath}/post`,
+                {
+                    title,
+                    content: unparsedText,
+                },
+                { withCredentials: true }
+            );
 
             if (res.data.data) {
                 navigate(`/post/${res.data.data._id}`);
@@ -115,6 +122,12 @@ export function Editor() {
             <div className="edi-pre">
                 <div className="editor">
                     <TitleComponent
+                        onKeyUp={(e) => {
+                            console.log(e.key);
+                            if (e.key === "Enter") {
+                                textAreaElementRef.current?.focus();
+                            }
+                        }}
                         title={title}
                         onChange={titleChangeHandler}
                     />
@@ -128,7 +141,7 @@ export function Editor() {
                 </div>
                 <div className="preview-container">
                     <h1>{title}</h1>
-                    <hr></hr>
+                    <hr />
                     <div
                         ref={previewContent}
                         className="preview-content"

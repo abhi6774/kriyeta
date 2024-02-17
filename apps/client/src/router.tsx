@@ -9,6 +9,7 @@ import { PostPage } from "./app/pages/PostPage";
 import LoginUpPage from "./app/pages/auth/LoginPage";
 import SignUpPage from "./app/pages/auth/SignUpPage";
 import Profile from "./app/pages/Profile";
+import { VersionedPage } from "./app/pages/VersionedPage";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
             {
                 path: "post/:id",
                 element: <PostPage />,
+            },
+            {
+                path: "post/:id/:version",
+                element: <VersionedPage />,
             },
         ],
     },

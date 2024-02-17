@@ -21,18 +21,19 @@ export const getVersions = asyncHandler(
                 },
             },
             {
-                $lookup:{
-                    from:"users",
-                    localField:"owner",
-                    foreignField:"_id",
-                    as:"userName"
-                }
-            },{
-                $addFields:{
-                    userName:{
-                        $first:"$userName.userName"
-                    }
-                }
+                $lookup: {
+                    from: "users",
+                    localField: "owner",
+                    foreignField: "_id",
+                    as: "userName",
+                },
+            },
+            {
+                $addFields: {
+                    userName: {
+                        $first: "$userName.userName",
+                    },
+                },
             },
             {
                 $project: {
@@ -64,20 +65,21 @@ export const getVersions = asyncHandler(
 //     }
 // );
 export const getVersionById = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response) => {
         const { versionId } = req.params;
 
         const version = await Version.findById(versionId);
 
-        res.status(200).json(
-            new apiResponse(version,"version")
-        )
-
+        res.status(200).json(new apiResponse(version, "version"));
     }
 );
 
 export const addVersion = asyncHandler(
-    async (req: Request & { user: any }, res: Response, next: NextFunction) => {
+    async (
+        req: Request & { user: unknown },
+        res: Response,
+        next: NextFunction
+    ) => {
         const { postId } = req.params;
         const { content } = req.body;
 

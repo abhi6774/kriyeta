@@ -8,6 +8,7 @@ const Profile = () => {
     const [profile, setProfile] = useState<any>(null);
     const [post, setPost] = useState<any>([]);
     const userName = "test3";
+
     useEffect(() => {
         const fetchProfile = async () => {
             const res = await axios.get(`${RootPath}/user/profile/${userName}`);
@@ -18,12 +19,12 @@ const Profile = () => {
             const res = await axios.get(`${RootPath}/post/`);
             setPost(res.data.data);
             console.log(res);
-            
         };
 
         fetchProfile();
         fetchpost();
     }, []);
+
     return (
         <div className="Profile">
             <div className="upper">
@@ -43,10 +44,9 @@ const Profile = () => {
             </div>
 
             <div className="lower">
-                {post.map((i) => (
+                {/* {post.map((i) => (
                     <SmallPostViewer />
-                ))}
-                
+                ))} */}
             </div>
         </div>
     );

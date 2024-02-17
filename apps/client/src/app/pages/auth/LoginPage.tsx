@@ -30,7 +30,7 @@ function SaveUserDetailsLocally(response: LoginResponse) {
 }
 
 const LoginPage = () => {
-    const { user } = useAuthContext();
+    const { user, setUser } = useAuthContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,6 +41,7 @@ const LoginPage = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     async function loginFormHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -58,9 +59,36 @@ const LoginPage = () => {
                     withCredentials: true,
                 }
             );
-            SaveUserDetailsLocally(response.data);
-            console.log(response);
-        } catch (err) {}
+            setLoading(false);
+            if (response.data.success && response.data.data) {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.data)
+                );
+                setUser(response.data.data);
+            }
+            navigate("/profile");
+        } catch (err) {
+            setLoading(false);
+        }
+    }
+
+    if (loading) {
+        return (
+            <Container>
+                <div
+                    style={{
+                        height: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <h1>Loading...</h1>
+                </div>
+            </Container>
+        );
     }
 
     return (

@@ -1,8 +1,9 @@
 import React from "react";
 import "../styles/landingpage.scss";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../context/auth.context";
 const LandingPage = () => {
-    const auth = false
+    const { user } = useAuthContext();
     return (
         <div className="landing-page">
             <div className="left">
@@ -14,7 +15,7 @@ const LandingPage = () => {
 
                 <Link
                     className="landing-page-btn"
-                    to={auth ? "/login" : "/login"}
+                    to={user ? "/editor" : "/login"}
                 >
                     Start Writing
                 </Link>
