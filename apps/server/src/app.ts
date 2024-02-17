@@ -13,7 +13,7 @@ app.use(express.static("apps/server/public/"));
 
 app.use(
     cors({
-        origin: "*",
+        origin: ["http://localhost:4200"],
         credentials: true,
     })
 );
