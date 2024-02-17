@@ -5,6 +5,7 @@ import Container from "../component/Container";
 import { RootPath } from "../axios.proxy";
 import { PostResponse } from "@kriyeta/api-interaces";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../component/Button";
 
 const md = markdownit();
 
@@ -28,29 +29,6 @@ function TitleComponent(props: {
 
 function Seperator() {
     return <div className="seperator"></div>;
-}
-
-function PageImages({}) {
-    return (
-        <div>
-            {/* <button
-                onClick={() => {
-                    const textArea = textAreaElementRef.current!;
-                    const start = textArea.selectionStart;
-                    const end = textArea.selectionEnd;
-                    const text = textArea.value;
-                    const newText = text.slice(0, start) + text.slice(end);
-                    setUnparsedText(newText);
-                    // textAreaElementRef.current!.value = newText;
-                    setParsedHtml(md.render(unparsedText));
-                    textArea.focus();
-                }}
-            >
-                Add Image
-            </button> */}
-            ;
-        </div>
-    );
 }
 
 const defaultDemoText = `# Welcome to the Markdown Editor
@@ -129,23 +107,30 @@ export function Editor() {
     }
 
     return (
-        <Container sx={{ flexGrow: 1, justifyContent: "flex-start"}}>
-            <div className="editor-container">
+        <div className="editor-container">
+            <div className="btn-container">
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        createPost();
+                    }}
+                >
+                    Publish
+                </button>
+            </div>
+            <div className="edi-pre">
                 <div className="editor">
                     <TitleComponent
                         title={title}
                         onChange={titleChangeHandler}
                     />
-                    
-                        <textarea
-                            name="textarea"
-                            ref={textAreaElementRef}
-                            onKeyUp={(e) => textAreaInputHandler(e)}
-                            value={unparsedText}
-                            onChange={(e) => setUnparsedText(e.target.value)}
-                        ></textarea>
-                        <button onClick={(e) => createPost()}>Publish</button>
-                    
+                    <textarea
+                        name="textarea"
+                        ref={textAreaElementRef}
+                        onKeyUp={(e) => textAreaInputHandler(e)}
+                        value={unparsedText}
+                        onChange={(e) => setUnparsedText(e.target.value)}
+                    ></textarea>
                 </div>
                 {/* <Seperator /> */}
                 <div className="preview-container">
@@ -158,6 +143,6 @@ export function Editor() {
                     ></div>
                 </div>
             </div>
-        </Container>
+        </div>
     );
 }

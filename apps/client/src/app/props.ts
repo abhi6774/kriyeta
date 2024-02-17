@@ -5,6 +5,7 @@ export type InputFieldProps = {
     placeholder: string;
     type?: React.HTMLInputTypeAttribute;
     name: string;
+    value: string;
     id?: string;
     autoComplete?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
