@@ -75,11 +75,7 @@ export const getVersionById = asyncHandler(
 );
 
 export const addVersion = asyncHandler(
-    async (
-        req: Request & { user: unknown },
-        res: Response,
-        next: NextFunction
-    ) => {
+    async (req: Request & { user: any }, res: Response, next: NextFunction) => {
         const { postId } = req.params;
         const { content } = req.body;
 

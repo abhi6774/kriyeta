@@ -51,6 +51,7 @@ export default function SignUpPage() {
                 );
                 setUser(response.data.data);
             }
+
             console.log(response);
         } catch (error: any) {
             console.log(error);

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
 import "../styles/post-view.scss";
 import MarkdownIt from "markdown-it";
-import { Link, useLocation } from "react-router-dom";
-import { VersionDataByPost, VersionResposneData } from "@kriyeta/api-interaces";
+import { Link, useNavigate } from "react-router-dom";
+import { VersionDataByPost } from "@kriyeta/api-interaces";
+
 type PostPageProps = {
+    id: string;
     title: string;
     previewContent: string;
     createdAt: number | Date;
@@ -13,17 +14,15 @@ type PostPageProps = {
 
 const md = new MarkdownIt();
 
-// function useQuery() {
-//     return new URLSearchParams(useLocation().search);
-// }
-
 export function PostViewer({
     title,
     previewContent,
     createdAt,
     author,
     version,
+    id,
 }: PostPageProps) {
+    const navigate = useNavigate();
     const formatter = new Intl.DateTimeFormat("en-IN", {
         year: "numeric",
         month: "long",
@@ -35,21 +34,37 @@ export function PostViewer({
     return (
         <div className="post-view">
             <h1 className="title">{title}</h1>
-            <ul className="post-info">
-                {/* <li>Author: {author}</li> */}
-                <li>{formatter.format(createdAt)}</li>
-            </ul>
-            <hr />
-            <div className="version-bar">
-                {version.map((version) => (
-                    <Link
-                        key={version._id}
-                        to={`/post/${version.post}/${version._id}`}
+            <div className="post-info-container">
+                <ul className="post-info">
+                    {/* <li>Author: {author}</li> */}
+                    <li>{formatter.format(createdAt)}</li>
+                </ul>
+                <div className="btn-container">
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/editor/${id}`);
+                        }}
                     >
-                        {formatter.format(new Date(version.createdAt))}
-                    </Link>
-                ))}
+                        Edit
+                    </button>
+                </div>
             </div>
+            <hr />
+            {version.length < 0 ? (
+                <div className="version-bar">
+                    {version.map((version) => (
+                        <Link
+                            key={version._id}
+                            to={`/post/${version.post}/${version._id}`}
+                        >
+                            {formatter.format(new Date(version.createdAt))}
+                        </Link>
+                    ))}
+                </div>
+            ) : (
+                ""
+            )}
             <hr />
             {typeof previewContent === "string" ? (
                 <div

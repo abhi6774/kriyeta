@@ -99,6 +99,7 @@ export function PostPage() {
     return (
         <Container sx={{ width: "100%" }}>
             <PostViewer
+                id={id}
                 createdAt={new Date(post.createdAt)}
                 title={post!.title}
                 previewContent={post!.content}

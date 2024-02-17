@@ -25,14 +25,10 @@ export type LoginResponse = Response & {
 
 export interface User {
     id: string;
-    username: string;
-    fullname: string;
+    userName: string;
+    fullName: string;
     email: string;
     password?: string;
-    avatar: {
-        url: string;
-        public_id: string;
-    };
 }
 
 export type Comment = {
@@ -94,3 +90,17 @@ export type GetVersionResponse = Response & {
 
 export type VersionDataByPost = Omit<VersionResposneData, "content">;
 export type GetVersionDataByPost = Response & { data: VersionDataByPost[] };
+
+export type Profile = {
+    _id: string;
+    userName: string;
+    fullName: string;
+    email: string;
+    password: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    follower: number;
+    following: number;
+};
+export type ProfileResponse = Response & { data: Profile };

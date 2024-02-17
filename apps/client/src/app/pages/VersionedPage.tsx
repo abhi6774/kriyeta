@@ -101,6 +101,7 @@ export function VersionedPage() {
     return (
         <Container sx={{ width: "100%" }}>
             <PostViewer
+                id="post-viewer"
                 createdAt={new Date(post.createdAt)}
                 title={post!.title}
                 previewContent={post!.content}
