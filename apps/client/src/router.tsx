@@ -8,6 +8,7 @@ import { Editor } from "./app/pages/Editor";
 import { PostPage } from "./app/pages/PostPage";
 import LoginUpPage from "./app/pages/auth/LoginPage";
 import SignUpPage from "./app/pages/auth/SignUpPage";
+import Profile from "./app/pages/Profile";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
 
     { path: "/login", element: <LoginUpPage /> },
     { path: "/signup", element: <SignUpPage /> },
+    {
+        path: "profile",
+        element: <Profile />,
+    },
 ]);
 
 export function RouterControllerComponent() {
