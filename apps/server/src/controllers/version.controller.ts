@@ -4,6 +4,7 @@ import asyncHandler from "../utils/asyncHandler";
 import { NextFunction, Response, Request } from "express";
 import mongoose from "mongoose";
 import Version from "../models/version.models";
+import Post from "../models/post.models";
 
 export const getVersions = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
@@ -52,18 +53,6 @@ export const getVersions = asyncHandler(
     }
 );
 
-// export const getVersions = asyncHandler(
-//     async (req: Request, res: Response, next: NextFunction) => {
-//         // const { versionId } = req.params;
-
-//         const version = await Version.find();
-
-//         res.status(200).json(
-//             new apiResponse(version,"version")
-//         )
-
-//     }
-// );
 export const getVersionById = asyncHandler(
     async (req: Request, res: Response) => {
         const { versionId } = req.params;
@@ -83,14 +72,41 @@ export const addVersion = asyncHandler(
             return next(new apiError(400, "Post id is requried !"));
         }
 
+        const post = await Post.findById(postId);
+        post.content = content;
+        await post.save();
+
         const version = await Version.create({
             post: postId,
             owner: req.user._id,
             content,
         });
 
+
+
         res.status(200).json(
             new apiResponse(version, "your version is upload")
         );
     }
 );
+
+type UpdateVersionType = (id: string, content: string, title: string) => void;
+
+type VersionType = {
+    title: string;
+    content: string;
+    post: string;
+    _id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    save:()=>{}
+};
+export const updateVersion: UpdateVersionType = async (id, content, title) => {
+    const version: VersionType = await Version.findById(id);
+
+    version.title = title ? title : version.title;
+    version.content = content ? content : version.content;
+
+    await version.save();
+
+};

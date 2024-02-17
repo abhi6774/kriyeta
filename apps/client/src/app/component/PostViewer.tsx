@@ -1,7 +1,10 @@
+import { useState } from "react";
 import "../styles/post-view.scss";
 import MarkdownIt from "markdown-it";
 import { Link, useNavigate } from "react-router-dom";
 import { VersionDataByPost } from "@kriyeta/api-interaces";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 
 type PostPageProps = {
     id: string;
@@ -23,6 +26,7 @@ export function PostViewer({
     id,
 }: PostPageProps) {
     const navigate = useNavigate();
+    const [like, setLike] = useState<boolean>();
     const formatter = new Intl.DateTimeFormat("en-IN", {
         year: "numeric",
         month: "long",
@@ -74,6 +78,9 @@ export function PostViewer({
             ) : (
                 <div ref={previewContent} className="post-content"></div>
             )}
+            <hr />
+            <button> {like ? <CiHeart /> : <FaHeart />} </button>
+            <hr />
         </div>
     );
 }
