@@ -40,7 +40,10 @@ export function PostViewer({
                 <div ref={previewContent} className="post-content"></div>
             )}
             <hr />
-            <button> {like ? <CiHeart /> : <FaHeart />} </button>
+            <div className="like-comment-box">
+                <button> {like ? <CiHeart /> : <FaHeart />} </button>
+                <button> {like ? <CiHeart /> : <FaHeart />} </button>
+            </div>
             <hr />
         </div>
     );
