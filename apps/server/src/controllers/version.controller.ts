@@ -5,9 +5,10 @@ import { NextFunction, Response, Request } from "express";
 import mongoose from "mongoose";
 import Version from "../models/version.models";
 
-export const getVersion = asyncHandler(
+export const getVersions = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const { postId } = req.params;
+        // console.log(postId);
 
         if (!postId) {
             return next(new apiError(400, "Post id is requried !"));
@@ -40,12 +41,28 @@ export const getVersion = asyncHandler(
             },
         ]);
 
+        // const version = await Version.findById("65cfcc624612693df2a9f633");
+
+        // const version = await Version.find({})
+
         res.status(200).json(
             new apiResponse(versions, "All version of the Post")
         );
     }
 );
 
+// export const getVersions = asyncHandler(
+//     async (req: Request, res: Response, next: NextFunction) => {
+//         // const { versionId } = req.params;
+
+//         const version = await Version.find();
+
+//         res.status(200).json(
+//             new apiResponse(version,"version")
+//         )
+
+//     }
+// );
 export const getVersionById = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
         const { versionId } = req.params;

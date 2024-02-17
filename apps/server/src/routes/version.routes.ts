@@ -1,13 +1,14 @@
 import { Router } from "express";
 import {
     addVersion,
-    getVersion,
+    getVersions,
     getVersionById,
 } from "../controllers/version.controller";
 import auth from "../middlewares/auth.middlewares";
 const router = Router();
 
+router.route("/post/:postId").get(getVersions);
 router.route("/:versionId").get(getVersionById);
 
-router.route("/:postId").get(getVersion).post(auth, addVersion);
+router.route("/:postId").post(auth, addVersion);
 export default router;
