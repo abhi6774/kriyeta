@@ -19,22 +19,23 @@ const root = ReactDOM.createRoot(
 );
 
 const router = createBrowserRouter([
-    { path: "/", element: <App /> },
     {
-        path: "auth",
+        path: "/",
+        element: <App />,
         children: [
-            { path: "login", element: <LoginUpPage /> },
-            { path: "signup", element: <SignUpPage /> },
+            {
+                path: "editor",
+                element: <Editor />,
+            },
+            {
+                path: "post/:id",
+                element: <PostPage />,
+            },
         ],
     },
-    {
-        path: "editor",
-        element: <Editor />,
-    },
-    {
-        path: "/post/:id",
-        element: <PostPage />,
-    },
+
+    { path: "/login", element: <LoginUpPage /> },
+    { path: "signup", element: <SignUpPage /> },
 ]);
 
 root.render(

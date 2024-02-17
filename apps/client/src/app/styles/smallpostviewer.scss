@@ -1,0 +1,142 @@
+.smallPost {
+    width: 80%;
+    height: 30vh;
+    padding: 2vw;
+    display: flex;
+    transition: all 0.1s;
+    border-radius: 1vw;
+    &:hover {
+        background-color: rgb(223, 220, 220);
+    }
+    div {
+        width: 70%;
+        padding-right: 1vw;
+        .avatar-username-section {
+            height: 20%;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+            margin-bottom: 1vw;
+
+            img {
+                height: 50px;
+                max-width: 50px;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+        }
+        h1 {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+        }
+        p {
+            font-size: 1.2rem;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+
+        .date-save-btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            height: 28%;
+
+            .ghost {
+                background-color: transparent;
+                border: none;
+                &:hover {
+                    color: rgb(196, 152, 152);
+                }
+                &:active {
+                    color: rgb(198, 132, 146);
+                }
+            }
+        }
+    }
+    img {
+        height: 100%;
+
+        flex-basis: 30%;
+        object-fit: cover;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .smallPost {
+        margin: .5rem 0;
+        width: 100%;
+        height: 20vh;
+        padding: 3vw;
+        display: flex;
+        transition: all 0.1s;
+        border-radius: 0vw;
+        border-bottom: 1px solid rgb(222, 218, 218);
+        &:hover {
+            background-color: rgb(223, 220, 220);
+        }
+        div {
+            width: 100%;
+            padding-right: 1vw;
+            .avatar-username-section {
+                height: 20%;
+                display: flex;
+                align-items: center;
+                gap: 3vw;
+                margin-bottom: 1vw;
+
+                img {
+                    display: block;
+                    height: 40px;
+                    max-width: 40px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+            h1 {
+                margin: 0.5rem 0;
+                font-size: 1rem;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+            }
+            p {
+                font-size: .9rem;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
+            }
+
+            .date-save-btn {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                height: 28%;
+
+                .ghost {
+                    background-color: transparent;
+                    border: none;
+                    &:hover {
+                        color: rgb(196, 152, 152);
+                    }
+                    &:active {
+                        color: rgb(198, 132, 146);
+                    }
+                }
+            }
+        }
+        img {
+            
+           display: none;
+        }
+    }
+}
