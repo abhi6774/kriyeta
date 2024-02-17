@@ -1,7 +1,14 @@
 import { ReactNode } from "react";
 import "../styles/container.scss";
 
-export default function Container({ children }: { children: ReactNode }) {
+export default function Container({
+    children,
+    sx,
+}: {
+    children: ReactNode;
+    sx?: React.CSSProperties;
+}) {
+    sx = sx || {};
     return (
         <div
             style={{
@@ -10,6 +17,7 @@ export default function Container({ children }: { children: ReactNode }) {
                 alignItems: "center",
                 justifyContent: "center",
                 height: "100%",
+                ...sx,
             }}
             className="container"
         >

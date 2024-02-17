@@ -1,0 +1,16 @@
+button.btn {
+    width: calc(100% - 80px);
+    margin: 20px 0;
+    padding: 1vw 2vw;
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    background-color: #3081d0;
+    margin-top: 1vw;
+    border: none;
+    font-size: large;
+    align-self: center;
+    box-shadow: 2px 2px 12px 4px rgba($color: #3081d0, $alpha: 0.4);
+    border: 2px solid #3081d0;
+    cursor: pointer;
+}

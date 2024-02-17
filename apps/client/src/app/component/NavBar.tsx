@@ -1,17 +1,17 @@
 import React from "react";
-import "../styles/navbar.scss";
 import { Link } from "react-router-dom";
+import "../styles/navbar.scss";
 import { Button } from "./Button";
+import { Logo } from "./Logo";
 const NavBar = () => {
-    const auth = false
+    const auth = false;
     return (
         <div className="navbar">
-            <h1>sharely !</h1>
-
+            <Logo />
             <div>
-                <Link to={"/"}>Write</Link>
-                <Link to={"/"}>Sign</Link>
-                <Link to={"/"}>Login</Link>
+                <Link to={"/editor"}>Write</Link>
+                <Link to={"/signup"}>Sign</Link>
+                <Link to={"/login"}>Login</Link>
 
                 {auth ? <button>LogOut</button> : <></>}
             </div>

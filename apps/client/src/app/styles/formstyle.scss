@@ -1,0 +1,11 @@
+.form-style {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+    padding: 20px 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    min-height: 450px;
+    // box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.2);
+}
