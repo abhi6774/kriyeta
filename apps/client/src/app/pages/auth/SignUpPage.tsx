@@ -1,70 +1,98 @@
+import { useRef, useState } from "react";
+import { Button } from "../../component/Button";
 import Container from "../../component/Container";
+import { InputField } from "../../component/Inputfield";
 import { Logo } from "../../component/Logo";
 import { useAuthContext } from "../../context/auth.context";
 import "../../styles/formstyle.scss";
+
 import axios from "axios";
-import { useState } from "react";
-import "../../styles/signup.scss"
+
 export default function SignUpPage() {
-
     const {} = useAuthContext();
+    const ref = useRef<HTMLInputElement>(null);
 
+    const [fullName, setFullName] = useState<string>("");
+    const [userName, setuserName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    // const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    // const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
+    async function register(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const signUpData = {
+            fullName,
+            userName,
+            email,
+            password,
+        };
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/api/v1/auth/register",
+                signUpData,
+                // { withCredentials: true }
+            );
+            console.log(response);
+        } catch (error: any) {
+            console.log(error);
+        }
+    }
+    // function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    //     const file = e.target.files?.item(0);
+
+    //     if (file) {
+    //         const url = URL.createObjectURL(file);
+    //         console.log(url);
+    //         setAvatarUrl(url);
+    //         setAvatarFile(file);
+    //     }
+    // }
 
     return (
         <Container sx={{ paddingTop: "80px" }}>
-            <div className="sign">
-                <form
-                    className="flex flex-col gap-4"
-                    onSubmit={(e) => register(e)}
-                >
-                    <input
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        className="p-2 text-lg"
-                        type="text"
-                        placeholder="Full Name"
-                        name="fullName"
-                    />
-                    <input
-                        value={userName}
-                        onChange={(e) => setuserName(e.target.value)}
-                        className="p-2 text-lg"
-                        type="text"
-                        placeholder="User Name"
-                        name="userName"
-                    />
-                    <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="p-2 text-lg"
-                        type="email"
-                        placeholder="Email@.gmail.com"
-                        name="email"
-                    />
-                    <input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="p-2 text-lg"
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                    />
+            <form className="form-style" onSubmit={register}>
+                <Logo />
 
-                    <p>Profile Picture *</p>
+                <InputField
+                    value={email}
+                    onChange={(e) => setEmail(e.currentTarget.value)}
+                    name="email"
+                    placeholder="Email"
+                    type="email"
+                    label="Email"
+                    autoComplete="email"
+                />
+                <InputField
+                    value={userName}
+                    onChange={(e) => setuserName(e.currentTarget.value)}
+                    name="userName"
+                    placeholder="Username"
+                    type="text"
+                    label="Username"
+                    autoComplete="username"
+                />
+                <InputField
+                    value={fullName}
+                    onChange={(e) => setFullName(e.currentTarget.value)}
+                    name="fullName"
+                    placeholder="Full Name"
+                    id="fullName"
+                    type="text"
+                    label="Full Name"
+                />
+                <InputField
+                    value={password}
+                    onChange={(e) => setPassword(e.currentTarget.value)}
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    label="Password"
+                    autoComplete="new-password"
+                />
 
-                    <input
-                        id="avatarfile"
-                        className="p-2 text-lg text-foreground"
-                        type="file"
-                        placeholder="Avatar"
-                        name="avatar"
-                    />
-                    <button className="w-full" type="submit">
-                        Sign Up
-                    </button>
-                </form>
-            </div>
+                <Button type="submit" name="SignUp" />
+            </form>
         </Container>
     );
 }

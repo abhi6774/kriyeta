@@ -36,21 +36,21 @@ export const registerUser = asyncHandler(
                 )
             );
 
-        const localAvatarFilePath = req?.file?.path;
+        // const localAvatarFilePath = req?.file?.path;
 
-        console.log(localAvatarFilePath); // check
+        // console.log(localAvatarFilePath); // check
 
-        const avatar = await uploadOnCloudinary(localAvatarFilePath);
+        // const avatar = await uploadOnCloudinary(localAvatarFilePath);
 
         user = await User.create({
             userName,
             fullName,
             email,
             password,
-            avatar: {
-                url: avatar?.url,
-                public_id: avatar?.url,
-            },
+            // avatar: {
+            //     url: avatar?.url,
+            //     public_id: avatar?.url,
+            // },
         });
 
         // extra call
