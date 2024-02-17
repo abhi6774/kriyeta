@@ -4,7 +4,7 @@ import markdownit from "markdown-it";
 import Container from "../component/Container";
 import { RootPath } from "../axios.proxy";
 import { PostResponse } from "@kriyeta/api-interaces";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../component/Button";
 import axios from "axios";
 
@@ -62,7 +62,7 @@ console.log(a);
 [Google](https://www.google.com)
 `;
 
-export function Editor() {
+export function VersionEditor() {
     const textAreaElementRef = useRef<HTMLTextAreaElement>(null);
     const previewContent = useRef<HTMLDivElement>(null);
 
@@ -72,26 +72,9 @@ export function Editor() {
     const [parsedHtml, setParsedHtml] = useState<string>(
         md.render(defaultDemoText)
     );
-
-    const params = useParams();
-    const postId = params.id;
-
-    useEffect(() => {
-        console.log(postId);
-        if (postId !== "/" && postId !== undefined && postId !== null)
-            axios
-                .get<PostResponse>(`${RootPath}/post/${postId}`)
-                .then((res) => {
-                    const post = res.data.data;
-                    console.log(post);
-                    if (post) {
-                        setTitle(post.title);
-                        setUnparsedText(post.content);
-                    }
-                });
-    }, []);
-
     const [title, setTitle] = useState<string>("");
+
+    useEffect(() => {}, []);
 
     function textAreaInputHandler(e: React.FormEvent<HTMLTextAreaElement>) {
         if (e.target === null) return;

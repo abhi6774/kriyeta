@@ -25,14 +25,10 @@ export type LoginResponse = Response & {
 
 export interface User {
     id: string;
-    username: string;
-    fullname: string;
+    userName: string;
+    fullName: string;
     email: string;
     password?: string;
-    avatar: {
-        url: string;
-        public_id: string;
-    };
 }
 
 export type Comment = {
@@ -59,17 +55,52 @@ export type Post = {
     content: string;
     createdAt: string;
     updatedAt: string;
-    image: {
-        url: string;
-        public_id: string;
-    };
-    avatar: {
-        url: string;
-        public_id: string;
-    };
-    userName: string;
     totalLiked: number;
     totalComment: number;
 };
 
+export type AddPostResponse = Response & {
+    data: {
+        owner: string;
+        title: string;
+        content: string;
+        _id: string;
+        createdAt: string;
+        updatedAt: string;
+        __v: number;
+    };
+};
+
 export type PostResponse = Response & { data: Post };
+export interface VersionResposneData {
+    _id: string;
+    post: string;
+    content: string;
+    owner: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
+
+export type GetVersionResponse = Response & {
+    data: VersionResposneData;
+    message: string;
+    success: boolean;
+};
+
+export type VersionDataByPost = Omit<VersionResposneData, "content">;
+export type GetVersionDataByPost = Response & { data: VersionDataByPost[] };
+
+export type Profile = {
+    _id: string;
+    userName: string;
+    fullName: string;
+    email: string;
+    password: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    follower: number;
+    following: number;
+};
+export type ProfileResponse = Response & { data: Profile };

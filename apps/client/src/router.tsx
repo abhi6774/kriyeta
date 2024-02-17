@@ -9,6 +9,8 @@ import { PostPage } from "./app/pages/PostPage";
 import LoginUpPage from "./app/pages/auth/LoginPage";
 import SignUpPage from "./app/pages/auth/SignUpPage";
 import Profile from "./app/pages/Profile";
+import { VersionedPage } from "./app/pages/VersionedPage";
+import Dashboard from "./app/pages/dashboard/dashboard";
 
 const router = createBrowserRouter([
     {
@@ -19,20 +21,30 @@ const router = createBrowserRouter([
             {
                 path: "editor",
                 element: <Editor />,
+                children: [
+                    {
+                        path: ":id",
+                        element: <Editor />,
+                    },
+                ],
             },
             {
                 path: "post/:id",
                 element: <PostPage />,
             },
+            {
+                path: "post/:id/:version",
+                element: <VersionedPage />,
+            },
+            {
+                path: "profile",
+                element: <Profile />,
+            },
         ],
     },
-
+    { path: "/dashboard", element: <Dashboard /> },
     { path: "/login", element: <LoginUpPage /> },
     { path: "/signup", element: <SignUpPage /> },
-    {
-        path: "profile",
-        element: <Profile />,
-    },
 ]);
 
 export function RouterControllerComponent() {

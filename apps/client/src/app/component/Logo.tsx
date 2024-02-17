@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+const AppName = "Rewrite";
 export function Logo(
     { needLink, size }: { needLink?: boolean; size?: string | number } = {
         needLink: false,
@@ -14,10 +14,10 @@ export function Logo(
         >
             {needLink ? (
                 <Link to={"/"} style={{ textDecoration: "none" }}>
-                    sharely !
+                    {AppName}
                 </Link>
             ) : (
-                "sharely !"
+                AppName
             )}
         </h1>
     );

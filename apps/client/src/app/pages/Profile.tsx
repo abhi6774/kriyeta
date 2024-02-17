@@ -3,53 +3,97 @@ import SmallPostViewer from "../component/SmallPostViewer";
 import "../styles/profile.scss";
 import axios from "axios";
 import { RootPath } from "../axios.proxy";
+import { Post, Profile, ProfileResponse, User } from "@kriyeta/api-interaces";
+import { useAuthContext } from "../context/auth.context";
+import { useNavigate } from "react-router-dom";
 
-const Profile = () => {
-    const [profile, setProfile] = useState<any>(null);
-    const [post, setPost] = useState<any>([]);
-    const userName = "test3";
+const ProfilePage = () => {
+    const [profile, setProfile] = useState<Profile | null>(null);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const navigate = useNavigate();
+    const { user } = useAuthContext();
+
+    if (!user) {
+        navigate("/");
+        return <></>;
+    }
+
     useEffect(() => {
         const fetchProfile = async () => {
-            const res = await axios.get(`${RootPath}/user/profile/${userName}`);
+            const url = `${RootPath}/user/profile/${user.userName}`;
+            const res = await axios.get<ProfileResponse>(url);
+            console.log(res);
             setProfile(res.data.data);
         };
 
         const fetchpost = async () => {
-            const res = await axios.get(`${RootPath}/post/`);
-            setPost(res.data.data);
+            const res = await axios.get(`${RootPath}/post/${user.userName}`);
             console.log(res);
-            
+            setPosts(res.data.data);
         };
-
         fetchProfile();
         fetchpost();
     }, []);
+    const formatter = new Intl.DateTimeFormat("en-IN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+
+    useEffect(() => {
+        if (profile) {
+            console.log(profile);
+        }
+    }, [profile]);
+
     return (
         <div className="Profile">
             <div className="upper">
-                <img
-                    src="https://as1.ftcdn.net/v2/jpg/06/34/69/10/1000_F_634691063_xnaGvdlMt25rYoEcEd5xjHAgZkO7aPjB.jpg"
-                    alt=""
-                />
+                <div
+                    style={{
+                        width: "120px",
+                        height: "120px",
+                        background: "var(--secondary)",
+                        borderRadius: "50%",
+                        boxShadow: "0px 0px 10px 0px var(--secondary)",
+                        border: "2px solid white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <span style={{ fontSize: "4vw", color: "white" }}>
+                        {user && user.userName[0].toUpperCase()}
+                    </span>
+                </div>
                 <div>
-                    <p>@ {profile && profile.userName} r</p>
-                    <p>{profile && profile.fullName} </p>
+                    <p style={{ fontWeight: "bold" }}>
+                        {profile && profile.fullName}
+                    </p>
+                    <p style={{ fontSize: "medium" }}>
+                        @{profile && profile.userName}
+                    </p>
                     <div>
-                        <p>{profile && profile.follower} followe</p>
-                        <p>{profile && profile.following} following</p>
+                        <p>{profile && profile.follower} Followers</p>
+                        <p>{profile && profile.following} Following</p>
                     </div>
                     <button>Follow</button>
                 </div>
             </div>
 
             <div className="lower">
-                {post.map((i) => (
-                    <SmallPostViewer />
+                {posts.map((post) => (
+                    <SmallPostViewer
+                        content={post.content}
+                        title={post.title}
+                        userName={post.owner}
+                        date={post.createdAt}
+                        id={post._id}
+                    />
                 ))}
-                
             </div>
         </div>
     );
 };
 
-export default Profile;
+export default ProfilePage;

@@ -54,7 +54,7 @@ export const getVersions = asyncHandler(
 );
 
 export const getVersionById = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response) => {
         const { versionId } = req.params;
 
         const version = await Version.findById(versionId);

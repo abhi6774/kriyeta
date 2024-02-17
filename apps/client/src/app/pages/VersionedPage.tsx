@@ -13,16 +13,18 @@ import { RootPath } from "../axios.proxy";
 import Container from "../component/Container";
 import { PostViewer } from "../component/PostViewer";
 
-export function PostPage() {
+export function VersionedPage() {
     const params = useParams();
     const navigate = useNavigate();
+
     const [loading, setLoading] = useState(false);
     const [post, setPost] = useState<Post | null>(null);
     const [version, setVersion] = useState<VersionDataByPost[]>([]);
 
     const id = params.id!;
+    const versionId = params.version!;
 
-    if (!id || id === "/") {
+    if (!id || (id === "/" && !versionId) || versionId === "/") {
         navigate("/");
         return;
     }
@@ -99,7 +101,7 @@ export function PostPage() {
     return (
         <Container sx={{ width: "100%" }}>
             <PostViewer
-                id={id}
+                id="post-viewer"
                 createdAt={new Date(post.createdAt)}
                 title={post!.title}
                 previewContent={post!.content}
