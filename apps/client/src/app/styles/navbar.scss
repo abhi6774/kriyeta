@@ -1,0 +1,25 @@
+.navbar {
+    position: relative;
+    height: 80px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vw 5vw;
+    border-bottom:1px solid #3081D0 ;
+
+
+    div {
+        display: flex;
+        gap: 3vw;
+
+        a {
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+            &:hover {
+                color: #3081D0;
+            }
+        }
+    }
+}
