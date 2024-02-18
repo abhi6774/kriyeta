@@ -127,6 +127,26 @@ export function Editor() {
             console.error(err);
         }
     }
+    async function updatePost() {
+        try {
+            console.log(title, unparsedText);
+
+            const res = await axios.post<PostResponse>(
+                `${RootPath}/version/editpost/${postId}`,
+                {
+                    title,
+                    content: unparsedText,
+                },
+                { withCredentials: true }
+            );
+
+            if (res.data.data) {
+                navigate(`/post/${postId}`);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     return (
         <div className="editor-container">
@@ -134,6 +154,14 @@ export function Editor() {
                 <button
                     onClick={(e) => {
                         e.preventDefault();
+                        if (
+                            postId !== "/" &&
+                            postId !== undefined &&
+                            postId !== null
+                        ) {
+                            updatePost();
+                            return;
+                        }
                         createPost();
                     }}
                 >

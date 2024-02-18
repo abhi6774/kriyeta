@@ -50,13 +50,12 @@ export const getAllPost = asyncHandler(async (req: Request, res: Response) => {
         {
             $addFields: {
                 userName: {
-                    $first: "$avatar",
+                    $first: "$userName",
                 },
             },
         },
         {
             $addFields: {
-                // avatar: "$avatar.avatar",
                 userName: "$userName.userName",
             },
         },
@@ -134,6 +133,78 @@ export const getPostById = asyncHandler(
                 },
             },
             {
+                $addFields: {
+                    userName: {
+                        $first: "$userName",
+                    },
+                },
+            },
+            {
+                $addFields: {
+                    // avatar: "$avatar.avatar",
+                    userName: "$userName.userName",
+                },
+            },
+            {
+                $lookup: {
+                    from: "likes",
+                    localField: "_id",
+                    foreignField: "post",
+                    as: "totalLikes",
+                },
+            },
+            {
+                $addFields: {
+                    totalLikes: {
+                        $size: "$totalLikes",
+                    },
+                },
+            },
+            {
+                $lookup: {
+                    from: "comments",
+                    localField: "_id",
+                    foreignField: "post",
+                    as: "totalComment",
+                },
+            },
+            {
+                $addFields: {
+                    totalComment: {
+                        $size: "$totalComment",
+                    },
+                },
+            },
+        ]);
+
+        res.status(200).json(new apiResponse(post[0], "Posts"));
+    }
+);
+
+export const getPostByUser = asyncHandler(
+    async (req: Request & { user: any }, res: Response, next: NextFunction) => {
+        const { userId } = req.params;
+        console.log(userId);
+
+        if (!userId) {
+            return next(new ApiError(400, "Post is not found !"));
+        }
+
+        const posts = await Post.aggregate([
+            {
+                $match: {
+                    owner: new mongoose.Types.ObjectId(userId),
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "owner",
+                    foreignField: "_id",
+                    as: "userName",
+                },
+            },
+            {
                 $lookup: {
                     from: "likes",
                     localField: "_id",
@@ -178,6 +249,6 @@ export const getPostById = asyncHandler(
             },
         ]);
 
-        res.status(200).json(new apiResponse(post[0], "Posts"));
+        res.status(200).json(new apiResponse(posts, "Posts"));
     }
 );

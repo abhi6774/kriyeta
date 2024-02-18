@@ -27,13 +27,15 @@ const ProfilePage = () => {
         };
 
         const fetchpost = async () => {
-            const res = await axios.get(`${RootPath}/post`);
-            console.log(res);
+            const res = await axios.get(`${RootPath}/post/user/${user._id}`);
+            console.log("Post", res);
+            console.log("PostState", posts);
             setPosts(res.data.data);
         };
         fetchProfile();
         fetchpost();
     }, []);
+
     const formatter = new Intl.DateTimeFormat("en-IN", {
         year: "numeric",
         month: "long",
@@ -86,7 +88,7 @@ const ProfilePage = () => {
                     <SmallPostViewer
                         content={post.content}
                         title={post.title}
-                        userName={post.owner}
+                        userName={user.fullName}
                         date={post.createdAt}
                         id={post._id}
                     />

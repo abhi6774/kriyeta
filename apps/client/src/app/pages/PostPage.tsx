@@ -102,6 +102,7 @@ export function PostPage() {
                 id={id}
                 createdAt={new Date(post.createdAt)}
                 title={post!.title}
+                author={post.userName}
                 previewContent={post!.content}
                 version={version}
             />

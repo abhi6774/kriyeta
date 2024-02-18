@@ -72,14 +72,20 @@ export const addVersion = asyncHandler(
             return next(new apiError(400, "Post id is requried !"));
         }
 
-        const post = await Post.findById(postId);
-        post.content = content;
-        await post.save();
+        const toUpdate = await Post.findOne({
+            _id: postId,
+        });
+
+        await Post.updateOne({
+            _id: postId,
+            owner: req.user._id,
+            content: content,
+        });
 
         const version = await Version.create({
             post: postId,
             owner: req.user._id,
-            content,
+            content: toUpdate.content,
         });
 
         res.status(200).json(

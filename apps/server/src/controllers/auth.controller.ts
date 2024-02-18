@@ -65,9 +65,21 @@ export const registerUser = asyncHandler(
                 )
             );
 
-        res.status(201).json(
-            new apiResponse(registerUser, "User register successfully.")
-        );
+        const payload = { _id: registerUser._id }; // payload for jwt
+
+        const accessToken = jwt.sign(payload, process.env.PRIVATE_TOKEN, {
+            expiresIn: process.env.PRIVATE_TOKEN_EXPIRES_TIME,
+        });
+
+        const optionsForAccess = {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        }; // option for cookies
+
+        res.status(200)
+            .cookie("accessToken", accessToken, optionsForAccess)
+            .json(new apiResponse(registerUser, "User Loged in Successfully."));
     }
 );
 

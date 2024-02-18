@@ -24,7 +24,7 @@ export type LoginResponse = Response & {
 };
 
 export interface User {
-    id: string;
+    _id: string;
     userName: string;
     fullName: string;
     email: string;
@@ -54,6 +54,7 @@ export type Post = {
     owner: string;
     content: string;
     createdAt: string;
+    userName: string;
     updatedAt: string;
     totalLiked: number;
     totalComment: number;

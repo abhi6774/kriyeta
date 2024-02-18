@@ -10,5 +10,5 @@ const router = Router();
 router.route("/post/:postId").get(getVersions);
 router.route("/:versionId").get(getVersionById);
 
-router.route("/:postId").post(auth, addVersion);
+router.route("/editpost/:postId").post(auth, addVersion);
 export default router;

@@ -1,7 +1,9 @@
 name: Upload Container To Cloud
 
 on:
-    workflow_dispatch:
+    push:
+        branches:
+            - main
 
 jobs:
     build:
