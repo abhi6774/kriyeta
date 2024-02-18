@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 const ProfilePage = () => {
     const [profile, setProfile] = useState<Profile | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
+    const [searchValue, setSearchValue] = useState("");
+    const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
     const navigate = useNavigate();
     const { user } = useAuthContext();
 
@@ -56,6 +58,15 @@ const ProfilePage = () => {
         }
     }, [profile]);
 
+    function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
+        e.preventDefault();
+        setSearchValue(e.target.value);
+        const filteredPosts = posts.filter((post) =>
+            post.title.includes(searchValue)
+        );
+        setFilteredPosts(filteredPosts);
+    }
+
     return (
         <div className="Profile">
             <div className="upper">
@@ -93,15 +104,33 @@ const ProfilePage = () => {
             </div>
 
             <div className="lower">
-                {posts.map((post) => (
-                    <SmallPostViewer
-                        content={post.content}
-                        title={post.title}
-                        userName={user.fullName}
-                        date={post.createdAt}
-                        id={post._id}
+                <div className="search-bar">
+                    <input
+                        type="text"
+                        placeholder="Search Posts"
+                        onChange={onSearch}
                     />
-                ))}
+                </div>
+                <hr />
+                {searchValue
+                    ? filteredPosts.map((post) => (
+                          <SmallPostViewer
+                              content={post.content}
+                              title={post.title}
+                              userName={user.fullName}
+                              date={post.createdAt}
+                              id={post._id}
+                          />
+                      ))
+                    : posts.map((post) => (
+                          <SmallPostViewer
+                              content={post.content}
+                              title={post.title}
+                              userName={user.fullName}
+                              date={post.createdAt}
+                              id={post._id}
+                          />
+                      ))}
             </div>
         </div>
     );
