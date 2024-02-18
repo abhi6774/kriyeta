@@ -1,0 +1,18 @@
+name: Upload Container To Cloud
+
+on:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: azure/docker-login@v1
+              with:
+                  login-server: ${{ secrets.REGISTRY_SERVER}}
+                  username: ${{ secrets.REGISTRY_USERNAME }}
+                  password: ${{ secrets.REGISTRY_PASSWORD }}
+
+            - run: |
+                  docker build . -t ${{secrets.REGISTRY_SERVER}}/kriyeta:latest
+                  docker push ${{secrets.REGISTRY_SERVER}}/kriyeta:latest

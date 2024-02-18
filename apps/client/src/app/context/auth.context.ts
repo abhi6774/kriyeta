@@ -8,7 +8,8 @@ type AuthContextProps = {
 const AuthContext = React.createContext<AuthContextProps>({
     user: null,
     setUser: (user: User) => { }
-})
+});
+
 
 export default AuthContext;
 

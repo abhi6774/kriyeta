@@ -12,14 +12,13 @@ const server = createServer(app);
 
 app.use(express.static("dist/apps/client"));
 
-
 app.get("*", (req, res) => {
     res.sendFile("index.html", { root: "dist/apps/client" });
-})
+});
 
 connectDb()
     .then(() => {
-        server.listen(port, host, () => {
+        server.listen(port, () => {
             console.log(`[ ready ] http://${host}:${port}`);
         });
     })
