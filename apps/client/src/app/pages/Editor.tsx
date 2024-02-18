@@ -70,7 +70,7 @@ export function Editor() {
 
     const [unparsedText, setUnparsedText] = useState<string>(defaultDemoText);
     const [parsedHtml, setParsedHtml] = useState<string>(
-        md.render(defaultDemoText)
+        md.render(unparsedText)
     );
 
     const params = useParams();
@@ -87,7 +87,9 @@ export function Editor() {
                     if (post) {
                         setTitle(post.title);
                         setUnparsedText(post.content);
+                        setParsedHtml(md.render(post.content));
                     }
+                    return;
                 });
     }, []);
 

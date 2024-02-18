@@ -82,8 +82,6 @@ export const addVersion = asyncHandler(
             content,
         });
 
-
-
         res.status(200).json(
             new apiResponse(version, "your version is upload")
         );
@@ -99,7 +97,7 @@ type VersionType = {
     _id: string;
     createdAt: Date;
     updatedAt: Date;
-    save:()=>{}
+    save: () => {};
 };
 export const updateVersion: UpdateVersionType = async (id, content, title) => {
     const version: VersionType = await Version.findById(id);
@@ -108,5 +106,4 @@ export const updateVersion: UpdateVersionType = async (id, content, title) => {
     version.content = content ? content : version.content;
 
     await version.save();
-
 };

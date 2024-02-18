@@ -27,7 +27,7 @@ const ProfilePage = () => {
         };
 
         const fetchpost = async () => {
-            const res = await axios.get(`${RootPath}/post/${user.userName}`);
+            const res = await axios.get(`${RootPath}/post`);
             console.log(res);
             setPosts(res.data.data);
         };

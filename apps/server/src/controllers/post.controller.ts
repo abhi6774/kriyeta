@@ -1,71 +1,69 @@
 import { NextFunction, Request, Response } from "express";
 import asyncHandler from "../utils/asyncHandler";
 import ApiError from "../utils/apiError";
-import User from "../models/user.models";
+// import User from "../models/user.models";
 import apiResponse from "../utils/apiResponse";
-import { deleteOnCloundinary, uploadOnCloudinary } from "../utils/cloudinary";
+// import { deleteOnCloundinary, uploadOnCloudinary } from "../utils/cloudinary";
 import Post from "../models/post.models";
 import mongoose from "mongoose";
 
-export const getAllPost = asyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-        const posts = await Post.aggregate([
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "owner",
-                    foreignField: "_id",
-                    as: "userName",
+export const getAllPost = asyncHandler(async (req: Request, res: Response) => {
+    const posts = await Post.aggregate([
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "userName",
+            },
+        },
+        {
+            $lookup: {
+                from: "likes",
+                localField: "_id",
+                foreignField: "post",
+                as: "totalLikes",
+            },
+        },
+        {
+            $addFields: {
+                totalLikes: {
+                    $size: "$totalLikes",
                 },
             },
-            {
-                $lookup: {
-                    from: "likes",
-                    localField: "_id",
-                    foreignField: "post",
-                    as: "totalLikes",
+        },
+        {
+            $lookup: {
+                from: "comments",
+                localField: "_id",
+                foreignField: "post",
+                as: "totalComment",
+            },
+        },
+        {
+            $addFields: {
+                totalComment: {
+                    $size: "$totalComment",
                 },
             },
-            {
-                $addFields: {
-                    totalLikes: {
-                        $size: "$totalLikes",
-                    },
+        },
+        {
+            $addFields: {
+                userName: {
+                    $first: "$avatar",
                 },
             },
-            {
-                $lookup: {
-                    from: "comments",
-                    localField: "_id",
-                    foreignField: "post",
-                    as: "totalComment",
-                },
+        },
+        {
+            $addFields: {
+                // avatar: "$avatar.avatar",
+                userName: "$userName.userName",
             },
-            {
-                $addFields: {
-                    totalComment: {
-                        $size: "$totalComment",
-                    },
-                },
-            },
-            {
-                $addFields: {
-                    userName: {
-                        $first: "$avatar",
-                    },
-                },
-            },
-            {
-                $addFields: {
-                    // avatar: "$avatar.avatar",
-                    userName: "$userName.userName",
-                },
-            },
-        ]);
+        },
+    ]);
 
-        res.status(200).json(new apiResponse(posts, "All Posts"));
-    }
-);
+    res.status(200).json(new apiResponse(posts, "All Posts"));
+});
 
 export const addPost = asyncHandler(
     async (req: Request & { user: any }, res: Response, next: NextFunction) => {
