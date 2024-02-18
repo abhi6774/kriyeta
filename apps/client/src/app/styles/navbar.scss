@@ -1,14 +1,15 @@
 .navbar {
-    position: relative;
+    position: sticky;
+    top: 0;
     height: 80px;
     width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1vw 5vw;
-    border-bottom:1px solid #3081D0 ;
-
-
+    border-bottom: 1px solid #3081d0;
+    z-index: 1;
+    background: white;
     div {
         display: flex;
         gap: 3vw;
@@ -18,7 +19,7 @@
             color: black;
             font-weight: 500;
             &:hover {
-                color: #3081D0;
+                color: #3081d0;
             }
         }
     }

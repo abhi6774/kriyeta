@@ -5,12 +5,19 @@
     display: flex;
     transition: all 0.1s;
     border-radius: 1vw;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 18px;
+
     &:hover {
-        background-color: rgb(223, 220, 220);
+        scale: 1.02;
+        border: 2px solid var(--border-color);
+        cursor: pointer;
     }
+
     div {
         width: 100%;
         padding-right: 1vw;
+
         .avatar-username-section {
             height: 20%;
             display: flex;

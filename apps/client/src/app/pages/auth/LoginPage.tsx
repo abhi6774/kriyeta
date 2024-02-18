@@ -67,7 +67,7 @@ const LoginPage = () => {
                 );
                 setUser(response.data.data);
             }
-            navigate("/profile");
+            navigate("/dashboard");
         } catch (err) {
             setLoading(false);
         }

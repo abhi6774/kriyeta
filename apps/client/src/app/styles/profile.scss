@@ -2,7 +2,6 @@
     width: 100%;
     height: 100vh;
 
-   
     // background-color: #3081d0;
 
     .upper {
@@ -13,40 +12,80 @@
         align-items: center;
         gap: 2rem;
         border-bottom: 1px solid black;
-      img{
-        height: 17vw;
-        width: 17vw;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-      div{
-        width: 25%;
-        font-size: 1.3rem;
-        display: flex;
-        flex-direction: column;
-        gap: .5rem;
-        div{
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            gap: 2rem;
+        img {
+            height: 17vw;
+            width: 17vw;
+            object-fit: cover;
+            border-radius: 50%;
         }
-
-      }
-      button{
-        padding: .7rem 2rem;
-        border: none;
-        color: white;
-        background-color: #3081d0;
-      }
+        div {
+            width: 25%;
+            font-size: 1.3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            div {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                gap: 2rem;
+            }
+        }
+        button {
+            padding: 0.7rem 2rem;
+            border: none;
+            color: white;
+            background-color: #3081d0;
+        }
     }
 
-    .lower{
+    .lower {
         width: 100%;
-        min-height:60%;
+        min-height: 60%;
         display: flex;
         flex-direction: column;
         // justify-content: center;
         align-items: center;
+        padding: 40px;
+    }
+}
+
+@media screen and (600px > width) {
+    .Profile {
+        .upper {
+            width: 100%;
+            height: 40%;
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px;
+            align-items: center;
+            gap: 2rem;
+            border-bottom: 1px solid black;
+            img {
+                height: 17vw;
+                width: 17vw;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            div.user-info {
+                width: 100%;
+                font-size: 1.3rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    width: 100%;
+                    gap: 2rem;
+                }
+            }
+            button {
+                padding: 0.7rem 2rem;
+                border: none;
+                color: white;
+                background-color: #3081d0;
+            }
+        }
     }
 }

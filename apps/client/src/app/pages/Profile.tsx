@@ -27,8 +27,16 @@ const ProfilePage = () => {
         };
 
         const fetchpost = async () => {
-            const res = await axios.get(`${RootPath}/post/user/${user._id}`);
+            const res = await axios.get<{ data: Post[] }>(
+                `${RootPath}/post/user/${user._id}`
+            );
             console.log("Post", res);
+            if (res.data.data instanceof Array)
+                res.data.data.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB.getTime() - dateA.getTime();
+                });
             console.log("PostState", posts);
             setPosts(res.data.data);
         };
@@ -62,13 +70,14 @@ const ProfilePage = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        aspectRatio: 1 / 1,
                     }}
                 >
                     <span style={{ fontSize: "4vw", color: "white" }}>
                         {user && user.userName[0].toUpperCase()}
                     </span>
                 </div>
-                <div>
+                <div className="user-info">
                     <p style={{ fontWeight: "bold" }}>
                         {profile && profile.fullName}
                     </p>

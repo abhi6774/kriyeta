@@ -3,6 +3,10 @@ import Container from "../../component/Container";
 import { useAuthContext } from "../../context/auth.context";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/dashboard.scss";
+import SmallPostViewer from "../../component/SmallPostViewer";
+import axios from "axios";
+import { Post } from "@kriyeta/api-interaces";
+import { RootPath } from "../../axios.proxy";
 
 function UnAuthorized() {
     const [remainingTime, setRemainingTime] = useState(10);
@@ -40,8 +44,39 @@ function UnAuthorized() {
 
 export default function Dashboard() {
     const { user } = useAuthContext();
+    const [posts, setPosts] = useState<Post[]>([]);
     if (!user) {
         return <UnAuthorized />;
     }
-    return <div className="dashbaord-container"></div>;
+
+    useEffect(() => {
+        const fetchpost = async () => {
+            const res = await axios.get<{ data: Post[] }>(`${RootPath}/post`);
+            console.log("Post", res);
+            if (res.data.data instanceof Array)
+                res.data.data.sort((a, b) => {
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
+                    return dateB.getTime() - dateA.getTime();
+                });
+            console.log("PostState", posts);
+            setPosts(res.data.data);
+        };
+        fetchpost();
+    }, []);
+    return (
+        <div className="dashbaord-container">
+            <div className="lower">
+                {posts.map((post) => (
+                    <SmallPostViewer
+                        content={post.content}
+                        title={post.title}
+                        userName={post.userName}
+                        date={post.createdAt}
+                        id={post._id}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 }
