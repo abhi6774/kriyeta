@@ -5,7 +5,7 @@ import axios from "axios";
 import { RootPath } from "../axios.proxy";
 import { Post, Profile, ProfileResponse, User } from "@kriyeta/api-interaces";
 import { useAuthContext } from "../context/auth.context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProfilePage = () => {
     const [profile, setProfile] = useState<Profile | null>(null);
@@ -14,23 +14,28 @@ const ProfilePage = () => {
     const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
     const navigate = useNavigate();
     const { user } = useAuthContext();
+    const params = useParams();
+    const userName = params.userName;
 
-    if (!user) {
-        navigate("/");
-        return <></>;
-    }
+    useEffect(() => {
+        if (!user) {
+            navigate("/");
+        }
+    }, []);
 
     useEffect(() => {
         const fetchProfile = async () => {
-            const url = `${RootPath}/user/profile/${user.userName}`;
-            const res = await axios.get<ProfileResponse>(url);
+            const url = `${RootPath}/user/profile/${
+                userName ? userName : user!.userName
+            }`;
+            const res = await axios.get(url);
             console.log(res);
             setProfile(res.data.data);
         };
 
         const fetchpost = async () => {
             const res = await axios.get<{ data: Post[] }>(
-                `${RootPath}/post/user/${user._id}`
+                `${RootPath}/post/user/${user?.userName}`
             );
             console.log("Post", res);
             if (res.data.data instanceof Array)
@@ -117,7 +122,7 @@ const ProfilePage = () => {
                           <SmallPostViewer
                               content={post.content}
                               title={post.title}
-                              userName={user.fullName}
+                              userName={user!.fullName}
                               date={post.createdAt}
                               id={post._id}
                           />
@@ -126,7 +131,7 @@ const ProfilePage = () => {
                           <SmallPostViewer
                               content={post.content}
                               title={post.title}
-                              userName={user.fullName}
+                              userName={user!.fullName}
                               date={post.createdAt}
                               id={post._id}
                           />

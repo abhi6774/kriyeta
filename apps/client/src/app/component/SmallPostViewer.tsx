@@ -38,7 +38,9 @@ const SmallPostViewer: React.FC<SmallPostViewerType> = ({
                 <p>{content}</p>
 
                 <div className="date-save-btn">
-                    <p>{formatter.format(new Date(date))}</p>
+                    <p style={{ fontSize: "small" }}>
+                        {formatter.format(new Date(date))}
+                    </p>
                 </div>
             </div>
         </div>

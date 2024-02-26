@@ -45,8 +45,21 @@ function UnAuthorized() {
 export default function Dashboard() {
     const { user } = useAuthContext();
     const [posts, setPosts] = useState<Post[]>([]);
+
+    const [searchValue, setSearchValue] = useState("");
+    const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+
     if (!user) {
         return <UnAuthorized />;
+    }
+
+    function onSearch(e: React.ChangeEvent<HTMLInputElement>) {
+        e.preventDefault();
+        setSearchValue(e.target.value);
+        const filteredPosts = posts.filter((post) =>
+            post.title.includes(searchValue)
+        );
+        setFilteredPosts(filteredPosts);
     }
 
     useEffect(() => {
@@ -66,16 +79,49 @@ export default function Dashboard() {
     }, []);
     return (
         <div className="dashbaord-container">
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search Posts"
+                    onChange={onSearch}
+                />
+            </div>
+            <hr />
+
             <div className="lower">
-                {posts.map((post) => (
-                    <SmallPostViewer
-                        content={post.content}
-                        title={post.title}
-                        userName={post.userName}
-                        date={post.createdAt}
-                        id={post._id}
-                    />
-                ))}
+                {searchValue ? (
+                    filteredPosts.length < 0 ? (
+                        <span
+                            className="message"
+                            style={{
+                                margin: "auto",
+                                marginTop: "20px",
+                            }}
+                        >
+                            "Sorry No post available"
+                        </span>
+                    ) : (
+                        filteredPosts.map((post) => (
+                            <SmallPostViewer
+                                content={post.content}
+                                title={post.title}
+                                userName={post.userName}
+                                date={post.createdAt}
+                                id={post._id}
+                            />
+                        ))
+                    )
+                ) : (
+                    posts.map((post) => (
+                        <SmallPostViewer
+                            content={post.content}
+                            title={post.title}
+                            userName={post.userName}
+                            date={post.createdAt}
+                            id={post._id}
+                        />
+                    ))
+                )}
             </div>
         </div>
     );

@@ -40,6 +40,10 @@ const router = createBrowserRouter([
                 path: "profile",
                 element: <Profile />,
             },
+            {
+                path: "profile/:userName",
+                element: <Profile />,
+            },
             { path: "/dashboard", element: <Dashboard /> },
         ],
     },

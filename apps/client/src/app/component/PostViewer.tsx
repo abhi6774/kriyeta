@@ -40,7 +40,9 @@ export function PostViewer({
             <h1 className="title">{title}</h1>
             <div className="post-info-container">
                 <ul className="post-info">
-                    <li>Author: {author}</li>
+                    <li>
+                        <Link to={"/profile/" + author}>Author: {author}</Link>
+                    </li>
                     <li>{formatter.format(createdAt)}</li>
                 </ul>
                 <div className="btn-container">

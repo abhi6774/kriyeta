@@ -39,3 +39,24 @@ a.btn-style {
     transition: background-color 0.3s ease;
     margin: 12px 20px;
 }
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+
+    input {
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid var(--border-color);
+        outline: none;
+        transition: border-color 0.3s ease;
+        width: 100%;
+        max-width: 400px;
+    }
+}
+.search-bar + hr {
+    margin: 20px 0;
+    border: 2px solid var(--border-color);
+}
