@@ -12,7 +12,7 @@ import auth from "../middlewares/auth.middlewares";
 const router = Router();
 
 router.route("/").get(getAllPost).post(auth, addPost);
-router.route("/:postId").get(getPostById).delete(auth, deletePost);
 router.route("/user/:userId").get(getPostByUser);
+router.route("/:postId").get(getPostById).delete(auth, deletePost);
 
 export default router;

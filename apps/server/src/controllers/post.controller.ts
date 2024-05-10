@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, response, Response } from "express";
 import asyncHandler from "../utils/asyncHandler";
 import ApiError from "../utils/apiError";
 // import User from "../models/user.models";
@@ -183,72 +183,136 @@ export const getPostById = asyncHandler(
 
 export const getPostByUser = asyncHandler(
     async (req: Request & { user: any }, res: Response, next: NextFunction) => {
+        // const { userId } = req.params;
+        // console.log(userId);
+
+        // if (!userId) {
+        //     return next(new ApiError(400, "Post is not found !"));
+        // }
+
+        // console.log("Fetching posts")
+
+        
+        // console.log(posts)
+        // const resposne = new apiResponse(posts, "Posts");
+        // console.log(response)
+        // res.status(200).json(resposne);
+
         const { userId } = req.params;
         console.log(userId);
 
         if (!userId) {
-            return next(new ApiError(400, "Post is not found !"));
+            return next(new ApiError(400, "User ID is required."));
         }
 
-        const posts = await Post.aggregate([
-            {
-                $match: {
-                    owner: new mongoose.Types.ObjectId(userId),
-                },
-            },
-            {
-                $lookup: {
-                    from: "users",
-                    localField: "owner",
-                    foreignField: "_id",
-                    as: "userName",
-                },
-            },
-            {
-                $lookup: {
-                    from: "likes",
-                    localField: "_id",
-                    foreignField: "post",
-                    as: "totalLikes",
-                },
-            },
-            {
-                $addFields: {
-                    totalLikes: {
-                        $size: "$totalLikes",
-                    },
-                },
-            },
-            {
-                $lookup: {
-                    from: "comments",
-                    localField: "_id",
-                    foreignField: "post",
-                    as: "totalComment",
-                },
-            },
-            {
-                $addFields: {
-                    totalComment: {
-                        $size: "$totalComment",
-                    },
-                },
-            },
-            {
-                $addFields: {
-                    userName: {
-                        $first: "$avatar",
-                    },
-                },
-            },
-            {
-                $addFields: {
-                    // avatar: "$avatar.avatar",
-                    userName: "$userName.userName",
-                },
-            },
-        ]);
+        console.log("Fetching posts");
 
-        res.status(200).json(new apiResponse(posts, "Posts"));
+        try {
+            // const posts = await Post.aggregate([
+            //     {
+            //         $match: {
+            //             owner: new mongoose.Types.ObjectId(userId),
+            //         },
+            //     },
+            //     {
+            //         $lookup: {
+            //             from: "users",
+            //             localField: "owner",
+            //             foreignField: "_id",
+            //             as: "user",
+            //         },
+            //     },
+            //     {
+            //         $unwind: "$user",
+            //     },
+            //     {
+            //         $lookup: {
+            //             from: "likes",
+            //             localField: "_id",
+            //             foreignField: "post",
+            //             as: "likes",
+            //         },
+            //     },
+            //     {
+            //         $lookup: {
+            //             from: "comments",
+            //             localField: "_id",
+            //             foreignField: "post",
+            //             as: "comments",
+            //         },
+            //     },
+            //     {
+            //         $addFields: {
+            //             totalLikes: { $size: "$likes" },
+            //             totalComments: { $size: "$comments" },
+            //             userName: "$user.userName",
+            //             avatar: "$user.avatar",
+            //         },
+            //     },
+            // ]);
+            const posts = await Post.aggregate([
+                {
+                    $match: {
+                        owner: new mongoose.Types.ObjectId(userId),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "owner",
+                        foreignField: "_id",
+                        as: "userName",
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "likes",
+                        localField: "_id",
+                        foreignField: "post",
+                        as: "totalLikes",
+                    },
+                },
+                {
+                    $addFields: {
+                        totalLikes: {
+                            $size: "$totalLikes",
+                        },
+                    },
+                },
+                {
+                    $lookup: {
+                        from: "comments",
+                        localField: "_id",
+                        foreignField: "post",
+                        as: "totalComment",
+                    },
+                },
+                {
+                    $addFields: {
+                        totalComment: {
+                            $size: "$totalComment",
+                        },
+                    },
+                },
+                {
+                    $addFields: {
+                        userName: {
+                            $first: "$avatar",
+                        },
+                    },
+                },
+                {
+                    $addFields: {
+                        userName: "$userName.userName",
+                    },
+                },
+            ]);
+
+            console.log(posts);
+            res.status(200).json(posts);
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+            return next(new ApiError(500, "Error fetching posts."));
+        }
     }
 );

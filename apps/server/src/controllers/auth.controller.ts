@@ -66,15 +66,16 @@ export const registerUser = asyncHandler(
             );
 
         const payload = { _id: registerUser._id }; // payload for jwt
+        const date = new Date(Date.now() + 846000 * 1000)
 
         const accessToken = jwt.sign(payload, process.env.PRIVATE_TOKEN, {
-            expiresIn: process.env.PRIVATE_TOKEN_EXPIRES_TIME,
+            expiresIn: date.getTime(),
         });
 
         const optionsForAccess = {
             httpOnly: true,
             secure: true,
-            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            expires: date           ,
         }; // option for cookies
 
         res.status(200)
@@ -110,15 +111,15 @@ export const loginUser = asyncHandler(
         const logedInUser = await User.findById(user._id)?.select("-password ");
 
         const payload = { _id: user._id }; // payload for jwt
-
+        const date = new Date(Date.now() + 8460000 * 1000)
         const accessToken = jwt.sign(payload, process.env.PRIVATE_TOKEN, {
-            expiresIn: process.env.PRIVATE_TOKEN_EXPIRES_TIME,
+            expiresIn: date.getTime(),
         });
 
         const optionsForAccess = {
             httpOnly: true,
             secure: true,
-            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            expires:  date           ,
         }; // option for cookies
 
         res.status(200)

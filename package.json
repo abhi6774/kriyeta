@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "client": "nx serve client",
-    "server": "nx serve server"
+    "server": "nx run client:build && nx run server:serve:development"
   },
   "private": true,
   "dependencies": {

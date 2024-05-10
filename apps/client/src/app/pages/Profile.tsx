@@ -34,18 +34,18 @@ const ProfilePage = () => {
         };
 
         const fetchpost = async () => {
-            const res = await axios.get<{ data: Post[] }>(
-                `${RootPath}/post/user/${user?.userName}`
-            );
+            const postsURL = `${RootPath}/post/user/${user?._id}`;
+            console.log(postsURL)
+            const res = await axios.get(postsURL);
             console.log("Post", res);
-            if (res.data.data instanceof Array)
-                res.data.data.sort((a, b) => {
+            if (res.data instanceof Array)
+                res.data.sort((a, b) => {
                     const dateA = new Date(a.createdAt);
                     const dateB = new Date(b.createdAt);
                     return dateB.getTime() - dateA.getTime();
                 });
-            console.log("PostState", posts);
-            setPosts(res.data.data);
+            console.log("PostState", posts, res.data);
+            setPosts(res.data);
         };
         fetchProfile();
         fetchpost();

@@ -10,5 +10,8 @@ const router = Router();
 router.route("/post/:postId").get(getVersions);
 router.route("/:versionId").get(getVersionById);
 
-router.route("/editpost/:postId").post(auth, addVersion);
+router.route("/editpost/:postId").post((req, res, next) => {
+    console.log("Editing Post", req.params.postId)
+    next()
+}, auth, addVersion);
 export default router;

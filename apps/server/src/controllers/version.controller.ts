@@ -65,6 +65,7 @@ export const getVersionById = asyncHandler(
 
 export const addVersion = asyncHandler(
     async (req: Request & { user: any }, res: Response, next: NextFunction) => {
+        console.log(req.user)
         const { postId } = req.params;
         const { content } = req.body;
 
@@ -78,9 +79,8 @@ export const addVersion = asyncHandler(
 
         await Post.updateOne({
             _id: postId,
-            owner: req.user._id,
-            content: content,
-        });
+            // owner: req.user._id,
+        }, { content: content,});
 
         const version = await Version.create({
             post: postId,
